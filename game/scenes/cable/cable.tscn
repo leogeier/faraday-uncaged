@@ -1,10 +1,45 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/cable/plug.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/cable/cable.gd" type="Script" id=3]
 
+[sub_resource type="Animation" id=1]
+resource_name = "to_stretched_width"
+length = 0.3
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:current_cable_width")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.08, 0.18, 0.29 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 4.0, 1.0, 1.5 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "to_unstretched_width"
+length = 0.4
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:current_cable_width")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 2.5 ]
+}
+
 [node name="Cable" type="Node2D"]
 script = ExtResource( 3 )
+current_cable_width = 2.0
 
 [node name="PlugA" parent="." instance=ExtResource( 1 )]
 
@@ -13,3 +48,12 @@ position = Vector2( 100, 0 )
 
 [node name="PinJoint2D" type="PinJoint2D" parent="PlugB"]
 node_a = NodePath("..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/to_stretched_width = SubResource( 1 )
+anims/to_unstretched_width = SubResource( 2 )
+
+[connection signal="away_from_max_distance" from="PlugA" to="." method="on_plug_away_from_max_distance"]
+[connection signal="reached_max_distance" from="PlugA" to="." method="on_plug_reached_max_distance"]
+[connection signal="away_from_max_distance" from="PlugB" to="." method="on_plug_away_from_max_distance"]
+[connection signal="reached_max_distance" from="PlugB" to="." method="on_plug_reached_max_distance"]

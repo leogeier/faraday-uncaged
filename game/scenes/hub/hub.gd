@@ -36,7 +36,7 @@ func _input(event):
 	
 	if event is InputEventMouseButton and !event.pressed:
 		is_dragging = false
-		emit_signal("stopped_dragging")
+#		emit_signal("stopped_dragging")
 		for plug in get_connected_plugs():
 				plug.cable_radius_viz_enabled = false
 
@@ -44,6 +44,6 @@ func _input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
 		is_dragging = true
 		desired_position = global_position
-		emit_signal("started_dragging")
+#		emit_signal("started_dragging")
 		for plug in get_connected_plugs():
 				plug.counterpart.cable_radius_viz_enabled = true

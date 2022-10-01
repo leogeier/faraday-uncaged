@@ -20,4 +20,7 @@ display_name = "B"
 [node name="DeviceC" parent="." instance=ExtResource( 2 )]
 display_name = "C"
 
+[node name="DeviceD" parent="." instance=ExtResource( 2 )]
+display_name = "D"
+
 [node name="Cable" parent="." instance=ExtResource( 3 )]

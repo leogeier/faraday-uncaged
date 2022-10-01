@@ -75,6 +75,7 @@ func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 			ruleset.push_back(rule)
 			
 		if ruleset.size() == difficulty:
+			solve(devices, hubs, cables, candidate)
 			for connection in solutions[0]:
 				print(
 					connection.a.associated_node.get_display_name()

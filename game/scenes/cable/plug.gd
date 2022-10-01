@@ -38,16 +38,10 @@ func insert_into_port(port):
 func on_area_entered(area):
 	if !area.is_in_group("port"):
 		return
-	
-	dragged_over_port = area.get_port()
-	dragged_over_port.hover_with_plug(self)
 
 func on_area_exited(area):
 	if !area.is_in_group("port"):
 		return
-	
-	dragged_over_port.unhover_with_plug(self)
-	dragged_over_port = null
 
 func _draw():
 	if debug_viz and cable_radius_viz_enabled:
@@ -78,3 +72,25 @@ func _input_event(_viewport, event, _shape_idx):
 		if current_port != null:
 			current_port.remove_plug(self)
 			current_port = null
+
+func _process(_delta):
+	if is_dragging:
+		var closest_port
+		var closest_area_distance = INF
+		for area in $Area2D.get_overlapping_areas():
+			if !area.is_in_group("port"):
+				continue
+			var port = area.get_port()
+			if !port.can_accept_plug():
+				continue
+			
+			var distance = global_position.distance_squared_to(port.global_position)
+			if distance < closest_area_distance:
+				closest_port = port
+				closest_area_distance = distance
+			
+		if closest_port != dragged_over_port and dragged_over_port != null:
+			dragged_over_port.unhover_with_plug(self)
+		dragged_over_port = closest_port
+		if dragged_over_port != null:
+			dragged_over_port.hover_with_plug(self)

@@ -8,10 +8,10 @@ func get_description():
 	return ""
 	
 func check():
-	assert(false)
+	assert(false, "implement in subclass")
 	
 func check_on_verts(verts):
-	assert(false)
+	assert(false, "implement in subclass")
 	
 func find_vert(node, verts):
 	for vert in verts:

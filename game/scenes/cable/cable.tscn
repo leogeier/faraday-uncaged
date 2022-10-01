@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/cable/plug.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/cable/cable_segment.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/cable/cable.gd" type="Script" id=3]
 
 [node name="Cable" type="Node2D"]
@@ -14,77 +13,3 @@ position = Vector2( 100, 0 )
 
 [node name="PinJoint2D" type="PinJoint2D" parent="PlugB"]
 node_a = NodePath("..")
-node_b = NodePath("../../CableSegment10")
-
-[node name="CableSegment" parent="." instance=ExtResource( 2 )]
-
-[node name="PinJoint2D" parent="CableSegment" index="3"]
-node_b = NodePath("../../PlugA")
-
-[node name="CableSegment2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 10, 0 )
-
-[node name="PinJoint2D" parent="CableSegment2" index="3"]
-node_b = NodePath("../../CableSegment")
-
-[node name="CableSegment3" parent="." instance=ExtResource( 2 )]
-position = Vector2( 20, 0 )
-
-[node name="PinJoint2D" parent="CableSegment3" index="3"]
-node_b = NodePath("../../CableSegment2")
-
-[node name="StartPosition" type="Position2D" parent="CableSegment3"]
-
-[node name="CableSegment4" parent="." instance=ExtResource( 2 )]
-position = Vector2( 30, 0 )
-
-[node name="PinJoint2D" parent="CableSegment4" index="3"]
-node_b = NodePath("../../CableSegment3")
-
-[node name="CableSegment5" parent="." instance=ExtResource( 2 )]
-position = Vector2( 40, 0 )
-
-[node name="PinJoint2D" parent="CableSegment5" index="3"]
-node_b = NodePath("../../CableSegment4")
-
-[node name="CableSegment6" parent="." instance=ExtResource( 2 )]
-position = Vector2( 50, 0 )
-
-[node name="PinJoint2D" parent="CableSegment6" index="3"]
-node_a = NodePath("../../CableSegment6")
-node_b = NodePath("../../CableSegment5")
-
-[node name="CableSegment7" parent="." instance=ExtResource( 2 )]
-position = Vector2( 60, 0 )
-
-[node name="PinJoint2D" parent="CableSegment7" index="3"]
-node_b = NodePath("../../CableSegment6")
-
-[node name="CableSegment8" parent="." instance=ExtResource( 2 )]
-position = Vector2( 70, 0 )
-
-[node name="PinJoint2D" parent="CableSegment8" index="3"]
-node_b = NodePath("../../CableSegment7")
-
-[node name="CableSegment9" parent="." instance=ExtResource( 2 )]
-position = Vector2( 80, 0 )
-
-[node name="PinJoint2D" parent="CableSegment9" index="3"]
-node_b = NodePath("../../CableSegment8")
-
-[node name="CableSegment10" parent="." instance=ExtResource( 2 )]
-position = Vector2( 90, 0 )
-
-[node name="PinJoint2D" parent="CableSegment10" index="3"]
-node_b = NodePath("../../CableSegment9")
-
-[editable path="CableSegment"]
-[editable path="CableSegment2"]
-[editable path="CableSegment3"]
-[editable path="CableSegment4"]
-[editable path="CableSegment5"]
-[editable path="CableSegment6"]
-[editable path="CableSegment7"]
-[editable path="CableSegment8"]
-[editable path="CableSegment9"]
-[editable path="CableSegment10"]

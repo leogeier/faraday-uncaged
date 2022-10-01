@@ -24,14 +24,14 @@ func _input(event):
 			desired_position += event.relative
 			
 			var adjusted_desired_position = desired_position
-			for plug in get_connected_plugs():
-				var plug_desired_position = adjusted_desired_position + plug.global_position - global_position
-				if plug_desired_position.distance_to(plug.counterpart.global_position) > plug.cable_length:
-					var new_plug_desired_position = plug.counterpart.global_position + plug.counterpart.global_position.direction_to(plug_desired_position) * plug.cable_length
-					var offset = new_plug_desired_position - plug_desired_position
-					adjusted_desired_position += offset
-#			else:
-#				position = desired_position
+			# repeat this process multiple times to approach a correct solution
+			for i in range(5):
+				for plug in get_connected_plugs():
+					var plug_desired_position = adjusted_desired_position + plug.global_position - global_position
+					if plug_desired_position.distance_to(plug.counterpart.global_position) > plug.cable_length:
+						var new_plug_desired_position = plug.counterpart.global_position + plug.counterpart.global_position.direction_to(plug_desired_position) * plug.cable_length
+						var offset = new_plug_desired_position - plug_desired_position
+						adjusted_desired_position += offset
 			global_position = adjusted_desired_position.floor()
 	
 	if event is InputEventMouseButton and !event.pressed:

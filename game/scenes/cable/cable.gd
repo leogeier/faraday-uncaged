@@ -26,7 +26,7 @@ func _ready():
 	var previous_segment = $PlugA
 	for _i in range(cable_length / segment_length):
 		var segment = preload("res://scenes/cable/cable_segment.tscn").instance()
-		segment.segment_length = segment_length
+		segment.segment_length = segment_length #/ 2
 		segment.position = previous_segment.get_end_position()
 		segment.set_other_joined_body(previous_segment)
 		add_child(segment)

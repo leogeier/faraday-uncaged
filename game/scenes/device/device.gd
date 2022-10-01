@@ -15,3 +15,4 @@ func get_neighbors():
 
 func get_display_name():
 	return display_name
+	

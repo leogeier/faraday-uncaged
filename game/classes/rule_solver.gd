@@ -77,7 +77,7 @@ func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 			ruleset.push_back(rule)
 			
 		if ruleset.size() == difficulty:
-			solve(devices, hubs, cables, candidate)
+			#print(solutions)
 			for connection in solutions[0]:
 				print(
 					connection.a.associated_node.get_display_name()
@@ -108,7 +108,7 @@ func solve(devices, hubs, cables, rules):
 	for hub in hubs:
 		verts.push_back(Vert.new([], hub.get_port_count(), hub))
 		
-	var valid_configs = get_valid_configs(verts, [], cables.size(), rules)
+	var valid_configs = get_valid_configs(verts, cables.size(), rules)
 	
 	return valid_configs
 	
@@ -126,13 +126,13 @@ class QuerySorter:
 	func compare(q1, q2):
 		return q1.score < q2.score
 
-func get_valid_configs(verts, current_connections, remaining_connections, rules):
+func get_valid_configs(verts, remaining_connections, rules):
 	var valid_configs = []
-	var beam_width = 8
+	var beam_width = 1
 	
 	var states_explored = 0
 	
-	var next_queries = [BeamSearchQuery.new(verts, current_connections, 0)]
+	var next_queries = [BeamSearchQuery.new(verts, [], 0)]
 	
 	for depth in range(remaining_connections):
 		var current_queries = next_queries.duplicate()
@@ -167,7 +167,7 @@ func get_valid_configs(verts, current_connections, remaining_connections, rules)
 					new_verts[i] = new_vert_a
 					new_verts[j] = new_vert_b
 					
-					var new_current_connections = current_connections.duplicate()
+					var new_current_connections = q.current_connections.duplicate()
 					new_current_connections.push_back(Edge.new(new_vert_a, new_vert_b))
 					
 					var score = score_rules(new_verts, rules)
@@ -175,7 +175,10 @@ func get_valid_configs(verts, current_connections, remaining_connections, rules)
 					if score == 0:
 						valid_configs.push_back(new_current_connections)
 					else:
-						next_queries.push_back(BeamSearchQuery.new(new_verts, new_current_connections, score))
+						var p1 = two_connector_penalty(new_current_connections)
+						var r1 = good_hub_reward(rules, new_verts)
+							
+						next_queries.push_back(BeamSearchQuery.new(new_verts, new_current_connections, score + p1 - r1))
 						
 					states_explored += 1
 	
@@ -218,3 +221,34 @@ func score_rules(verts, rules):
 			score += rule.get_penalty()
 				
 	return score
+	
+func two_connector_penalty(edges):
+	var penalty = 0
+	for edge in edges:
+		if edge.a.associated_node.is_in_group("device") and edge.a.associated_node.is_in_group("device"):
+			penalty += 2
+			
+	return penalty
+	
+func good_hub_reward(rules, verts):
+	var reward = 0
+	var verts_dict = {}
+	for vert in verts:
+		verts_dict[vert.associated_node] = vert
+	
+	for rule in rules:
+		if not verts_dict[rule.portA].connections.empty():
+			if not verts_dict[rule.portA].connections[0].associated_node.is_in_group("device"):
+				reward += 5
+			
+		if not verts_dict[rule.portB].connections.empty():
+			if not verts_dict[rule.portB].connections[0].associated_node.is_in_group("device"):
+				reward += 5
+#
+#	for vert in verts:
+#		if not vert.associated_node.is_in_group("device"):
+#			for neighbor in vert.connections:
+#				if not neighbor.associated_node.is_in_group("device"):
+#					reward += 1.5
+			
+	return reward

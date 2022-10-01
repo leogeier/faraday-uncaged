@@ -3,11 +3,22 @@ extends Reference
 class_name Rule
 
 
-func check():
-	return false
 
 func get_description():
 	return ""
+	
+func check():
+	assert(false)
+	
+func check_on_verts(verts):
+	assert(false)
+	
+func find_vert(node, verts):
+	for vert in verts:
+		if vert.associated_node == node:
+			return vert
+	
+	assert(false)
 
 func run_bfs(from):
 	var discovered = [from]

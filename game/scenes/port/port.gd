@@ -1,13 +1,15 @@
 extends Node2D
 
-var plug
+func hover_with_plug(_plug):
+	modulate = Color.green
 
-func on_area_entered(area):
-	if !is_used() and area.is_in_group("plug"):
-		modulate = Color.green
+func unhover_with_plug(_plug):
+	modulate = Color.white
 
-func on_area_exited(area):
-	print(area)
+func insert_plug(plug):
+	modulate = Color.blue
+	$RemoteTransform2D.remote_path = plug.get_path()
 
-func is_used():
-	return plug != null
+func remove_plug(_plug):
+	modulate = Color.green
+	$RemoteTransform2D.remote_path = ""

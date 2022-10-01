@@ -8,6 +8,28 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Rule",
+"class": "ConnectedRule",
+"language": "GDScript",
+"path": "res://classes/connected_rule.gd"
+}, {
+"base": "Rule",
+"class": "NotConnectedRule",
+"language": "GDScript",
+"path": "res://classes/not_connected_rule.gd"
+}, {
+"base": "Reference",
+"class": "Rule",
+"language": "GDScript",
+"path": "res://classes/rule.gd"
+} ]
+_global_script_class_icons={
+"ConnectedRule": "",
+"NotConnectedRule": "",
+"Rule": ""
+}
+
 [application]
 
 config/name="ld51"

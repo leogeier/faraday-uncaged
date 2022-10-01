@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/julian_test_scene.gd" type="Script" id=1]
 [ext_resource path="res://scenes/device/device.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/cable/cable.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/hub/hub.tscn" type="PackedScene" id=4]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -24,3 +25,14 @@ display_name = "C"
 display_name = "D"
 
 [node name="Cable" parent="." instance=ExtResource( 3 )]
+
+[node name="Hub" parent="." instance=ExtResource( 4 )]
+display_name = "Hub1"
+
+[node name="Node" type="Node" parent="Hub/Ports" index="0"]
+
+[node name="Node2" type="Node" parent="Hub/Ports" index="1"]
+
+[node name="Node3" type="Node" parent="Hub/Ports" index="2"]
+
+[editable path="Hub"]

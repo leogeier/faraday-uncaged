@@ -11,16 +11,36 @@ func _ready():
 	$DeviceA.edges.push_back($Cable)
 	$DeviceB.edges.push_back($Cable)
 	
-	rules.push_back(ConnectedRule.new($DeviceA, $DeviceB))
-	rules.push_back(NotConnectedRule.new($DeviceB, $DeviceC))
-	update_text()
 	
-	print("Port count: ", $Hub.get_port_count())
-	
+	var devices = []
+	for i in range(10):
+		var device = preload("res://scenes/device/device.tscn").instance()
+		add_child(device)
+		device.display_name = "D" + str(i)
+		devices.push_back(device)
+		
+	var hubs = []
 	for i in range(3):
-		var gen_ruleset = RuleSolver.new().generate_ruleset([$DeviceA, $DeviceB, $DeviceC], [$Hub], [$Cable, $Cable, $Cable], 3, 2)
+		var hub = preload("res://scenes/hub/hub3.tscn").instance()
+		add_child(hub)
+		hub.display_name = "H" + str(i)
+		hubs.push_back(hub)
+		
+	var cables = []
+	for i in range(12):
+		var cable = preload("res://scenes/cable/cable.tscn").instance()
+		add_child(cable)
+		cables.push_back(cable)
+	
+	
+	for i in range(1):
+		var t_before = OS.get_ticks_msec()
+		var gen_ruleset = RuleSolver.new().generate_ruleset(devices, hubs, cables, 10, 4)
+		var t_after = OS.get_ticks_msec()
+		
 		for rule in gen_ruleset:
 			print(rule.get_description())
+		print(str(t_after - t_before) + "ms")
 		print("")
 	
 

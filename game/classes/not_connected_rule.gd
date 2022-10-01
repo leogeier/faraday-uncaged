@@ -17,11 +17,12 @@ func check():
 	
 
 func check_on_verts(verts):
-	var bfs_result = self.run_bfs(self.find_vert(portA, verts))
+	var bfs_result = self.run_bfs(verts[portA])
 	
-	return not bfs_result.has(self.find_vert(portB, verts))
+	return not bfs_result.has(verts[portB])
 
-
+func get_penalty():
+	return INF
 
 func get_description():
 	return "Don't connect " + self.portA.get_display_name() + " and " + self.portB.get_display_name() + "."

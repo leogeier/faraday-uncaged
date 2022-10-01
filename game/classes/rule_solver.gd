@@ -15,6 +15,9 @@ class Vert:
 		self.connection_limit = connection_limit
 		self.associated_node = associated_node
 		
+	func copy():
+		return Vert.new(connections.duplicate(), connection_limit, associated_node)
+		
 class Edge:
 	var a
 	var b
@@ -48,7 +51,6 @@ func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 	
 	possible_connect_rules.shuffle()
 	possible_rules.shuffle()
-	
 	
 	var ruleset = []
 	
@@ -109,51 +111,109 @@ func solve(devices, hubs, cables, rules):
 	
 	return valid_configs
 	
+class BeamSearchQuery:
+	var verts
+	var current_connections
+	var score
+	
+	func _init(verts, current_connections, score):
+		self.verts = verts
+		self.current_connections = current_connections
+		self.score = score
+		
+class QuerySorter:
+	func compare(q1, q2):
+		return q1.score < q2.score
+
 func get_valid_configs(verts, current_connections, remaining_connections, rules):
-	if remaining_connections == 0:
-		return []
-		
 	var valid_configs = []
-		
-	for i in range(verts.size()):
-		var vert_a = verts[i]
-		
-		if vert_a.connections.size() == vert_a.connection_limit:
-			continue
-			
-		for j in range(verts.size()):
-			if i == j:
-				continue
-				
-			var vert_b = verts[j]
-			
-			if vert_b.connections.size() == vert_b.connection_limit:
-				continue
-				
-			var new_verts = verts.duplicate()
-			var new_vert_a = Vert.new(vert_a.connections.duplicate(), vert_a.connection_limit, vert_a.associated_node)
-			var new_vert_b = Vert.new(vert_b.connections.duplicate(), vert_b.connection_limit, vert_b.associated_node)
-			
-			new_vert_a.connections.push_back(new_vert_b)
-			new_vert_b.connections.push_back(new_vert_a)
-			
-			new_verts[i] = new_vert_a
-			new_verts[j] = new_vert_b
-			
-			var new_current_connections = current_connections.duplicate()
-			new_current_connections.push_back(Edge.new(new_vert_a, new_vert_b))
-			
-			if check_rules(new_verts, rules):
-				valid_configs.push_back(new_current_connections)
-				
-			valid_configs.append_array(get_valid_configs(new_verts, new_current_connections, remaining_connections - 1, rules))
+	var beam_width = 8
 	
+	var states_explored = 0
+	
+	var next_queries = [BeamSearchQuery.new(verts, current_connections, 0)]
+	
+	for depth in range(remaining_connections):
+		var current_queries = next_queries.duplicate()
+		current_queries.sort_custom(QuerySorter.new(), "compare")
+		current_queries = current_queries.slice(0, beam_width)
+		next_queries = []
+		
+		for q in current_queries:
+			if q.score > rules.size():
+				break
+				
+			for i in range(q.verts.size()):
+				var vert_a = q.verts[i]
+				
+				if vert_a.connections.size() == vert_a.connection_limit:
+					continue
+					
+				for j in range(i+1, q.verts.size()):
+						
+					var vert_b = q.verts[j]
+					
+					if vert_b.connections.size() == vert_b.connection_limit:
+						continue
+						
+					var new_verts = q.verts.duplicate()
+					var new_vert_a = vert_a.copy()
+					var new_vert_b = vert_b.copy()
+					
+					new_vert_a.connections.push_back(new_vert_b)
+					new_vert_b.connections.push_back(new_vert_a)
+					
+					new_verts[i] = new_vert_a
+					new_verts[j] = new_vert_b
+					
+					var new_current_connections = current_connections.duplicate()
+					new_current_connections.push_back(Edge.new(new_vert_a, new_vert_b))
+					
+					var score = score_rules(new_verts, rules)
+					
+					if score == 0:
+						valid_configs.push_back(new_current_connections)
+					else:
+						next_queries.push_back(BeamSearchQuery.new(new_verts, new_current_connections, score))
+						
+					states_explored += 1
+	
+		print(states_explored)
+					
 	return valid_configs
+
+
+func reconstruct_verts(old_verts):
+	var new_verts = {}
 	
+	for old_v in old_verts:
+		new_verts[old_v.associated_node] = old_v.copy()
+		
+	for vert in new_verts.values():
+		var connections = []
+		
+		for old_connection in vert.connections:
+			connections.push_back(new_verts[old_connection.associated_node])
 			
+		vert.connections = connections
+		
+	return new_verts
+		
+
 func check_rules(verts, rules):
+	var fixed_verts = reconstruct_verts(verts)
 	for rule in rules:
-		if not rule.check_on_verts(verts):
+		if not rule.check_on_verts(fixed_verts):
 			return false
 			
 	return true
+
+func score_rules(verts, rules):
+	var fixed_verts = reconstruct_verts(verts)
+	var score = 0
+	
+	for rule in rules:
+		if not rule.check_on_verts(fixed_verts):
+			score += rule.get_penalty()
+				
+	return score

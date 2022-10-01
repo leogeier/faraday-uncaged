@@ -15,11 +15,13 @@ func check():
 	
 	return bfs_result.has(self.portB)
 	
+func get_penalty():
+	return 1
 
 func check_on_verts(verts):
-	var bfs_result = self.run_bfs(self.find_vert(portA, verts))
+	var bfs_result = self.run_bfs(verts[portA])
 	
-	return bfs_result.has(self.find_vert(portB, verts))
+	return bfs_result.has(verts[portB])
 
 
 func get_description():

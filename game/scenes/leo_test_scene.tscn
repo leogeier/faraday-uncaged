@@ -1,13 +1,33 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/cable/cable.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/port/port.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/hub/hub2.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/hub/hub4.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/device/device.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/hub/hub3.tscn" type="PackedScene" id=5]
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Hub2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 188, 74 )
+[node name="Device" parent="." instance=ExtResource( 4 )]
+position = Vector2( 148, 162 )
+
+[node name="Device2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 262, 149 )
+
+[node name="Device3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 284, 113 )
+
+[node name="Device4" parent="." instance=ExtResource( 4 )]
+position = Vector2( 124, 88 )
+
+[node name="Device5" parent="." instance=ExtResource( 4 )]
+position = Vector2( 226, 23 )
+
+[node name="Hub3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 208, 118 )
+
+[node name="Hub4" parent="." instance=ExtResource( 3 )]
+position = Vector2( 194, 67 )
 
 [node name="Port" parent="." instance=ExtResource( 2 )]
 position = Vector2( 102, 55 )
@@ -20,6 +40,24 @@ debug_viz = true
 
 [node name="Cable2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 254, 71 )
+segment_length = 10
+cable_length = 100
+debug_viz = true
+
+[node name="Cable3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 29, 119 )
+segment_length = 10
+cable_length = 100
+debug_viz = true
+
+[node name="Cable4" parent="." instance=ExtResource( 1 )]
+position = Vector2( 29, 135 )
+segment_length = 10
+cable_length = 100
+debug_viz = true
+
+[node name="Cable5" parent="." instance=ExtResource( 1 )]
+position = Vector2( 254, 87 )
 segment_length = 10
 cable_length = 100
 debug_viz = true

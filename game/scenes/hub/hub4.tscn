@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/port/port.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/hub/hub.gd" type="Script" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 37, 10 )
+
+[node name="Hub4" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="Icon" type="Sprite" parent="."]
+modulate = Color( 0.356863, 0.356863, 0.356863, 1 )
+scale = Vector2( 1.125, 0.28125 )
+texture = ExtResource( 3 )
+
+[node name="Ports" type="Node2D" parent="."]
+
+[node name="Port1" parent="Ports" instance=ExtResource( 1 )]
+position = Vector2( -9, 0 )
+
+[node name="Port2" parent="Ports" instance=ExtResource( 1 )]
+position = Vector2( 9, 0 )
+
+[node name="Port3" parent="Ports" instance=ExtResource( 1 )]
+position = Vector2( 27, 0 )
+
+[node name="Port4" parent="Ports" instance=ExtResource( 1 )]
+position = Vector2( -27, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )

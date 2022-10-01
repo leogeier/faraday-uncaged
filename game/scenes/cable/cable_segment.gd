@@ -2,6 +2,7 @@ extends RigidBody2D
 
 var segment_length setget set_segment_length
 var previous_segment
+var cable_width
 
 func set_segment_length(value):
 	segment_length = value
@@ -24,5 +25,5 @@ func _process(_delta):
 	update()
 
 func _draw():
-	draw_line($StartPosition.position, $EndPosition.position, Color.black, 2)
-	draw_line($StartPosition.position, transform.xform_inv(previous_segment.get_end_position()), Color.black, 2)
+	draw_line($StartPosition.position, $EndPosition.position, Color.black, cable_width)
+	draw_line($StartPosition.position, transform.xform_inv(previous_segment.get_end_position()), Color.black, cable_width)

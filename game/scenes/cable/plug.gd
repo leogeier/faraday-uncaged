@@ -9,9 +9,13 @@ var is_dragging = false
 var desired_position
 var dragged_over_port
 var current_port
+var can_signal_reached_max_distance = true
 
 signal started_dragging
 signal stopped_dragging
+
+signal reached_max_distance
+signal away_from_max_distance
 
 func set_counterpart(value):
 	counterpart = value
@@ -48,6 +52,16 @@ func on_area_exited(area):
 func can_connect_to_port(port):
 	return port.can_accept_plug() and counterpart.global_position.distance_to(port.global_position) <= cable_length
 
+func signal_reached_max_distance():
+	if can_signal_reached_max_distance:
+		can_signal_reached_max_distance = false
+		emit_signal("reached_max_distance")
+
+func enable_signal_reached_max_distance():
+	if !can_signal_reached_max_distance:
+		can_signal_reached_max_distance = true
+		emit_signal("away_from_max_distance")
+
 func _draw():
 	if debug_viz and cable_radius_viz_enabled:
 		draw_arc(Vector2.ZERO, cable_length, 0, TAU, 30, Color.red)
@@ -58,8 +72,11 @@ func _input(event):
 			desired_position += event.relative
 			if desired_position.distance_to(counterpart.position) > cable_length:
 				position = counterpart.position + counterpart.position.direction_to(desired_position) * cable_length
+				signal_reached_max_distance()
 			else:
 				position = desired_position
+				if position.distance_to(counterpart.position) < cable_length * 0.9:
+					enable_signal_reached_max_distance()
 			position = position.floor()
 	
 	if event is InputEventMouseButton and !event.pressed:

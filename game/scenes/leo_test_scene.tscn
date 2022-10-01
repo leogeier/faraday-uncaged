@@ -5,4 +5,7 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Cable" parent="." instance=ExtResource( 1 )]
-position = Vector2( 180, 89 )
+position = Vector2( 30, 23 )
+segment_length = 10
+cable_length = 100
+debug_viz = true

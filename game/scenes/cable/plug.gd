@@ -1,12 +1,55 @@
 extends StaticBody2D
 
+var counterpart setget set_counterpart
+var cable_length
+var debug_viz
+
 var is_dragging = false
+var desired_position
+var cable_radius_viz_enabled = false
+
+signal started_dragging
+signal stopped_dragging
+
+func set_counterpart(value):
+	counterpart = value
+	counterpart.connect("started_dragging", self, "counterpart_started_dragging")
+	counterpart.connect("stopped_dragging", self, "counterpart_stopped_dragging")
+
+func get_start_position():
+	return position
+
+func get_end_position():
+	return get_start_position()
+
+func counterpart_started_dragging():
+	cable_radius_viz_enabled = true
+	update()
+	
+func counterpart_stopped_dragging():
+	cable_radius_viz_enabled = false
+	update()
+
+func _draw():
+	if debug_viz and cable_radius_viz_enabled:
+		draw_arc(Vector2.ZERO, cable_length, 0, TAU, 30, Color.red)
 
 func _input(event):
 	if event is InputEventMouseMotion:
 		if is_dragging:
-			position += event.relative
+			desired_position += event.relative
+			if desired_position.distance_to(counterpart.position) > cable_length:
+				position = counterpart.position + counterpart.position.direction_to(desired_position) * cable_length
+			else:
+				position = desired_position
+			position = position.floor()
+	
+	if event is InputEventMouseButton and !event.pressed:
+		is_dragging = false
+		emit_signal("stopped_dragging")
 
-func _input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
-		is_dragging = event.pressed
+func _input_event(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
+		is_dragging = true
+		desired_position = position
+		emit_signal("started_dragging")

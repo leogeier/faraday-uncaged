@@ -24,6 +24,68 @@ class Edge:
 		self.b = b
 		
 
+func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
+	var possible_rules = []
+	var possible_connect_rules = []
+	for i in range(devices.size()):
+		for j in range(i + 1, devices.size()):
+			var device_a
+			var device_b
+			
+			if randi() % 2 == 0:
+				device_a = devices[i]
+				device_b = devices[j]
+			else:
+				device_a = devices[j]
+				device_b = devices[i]
+				
+			var connected_rule = ConnectedRule.new(device_a, device_b)
+			var not_connected_rule = NotConnectedRule.new(device_a, device_b)
+				
+			possible_connect_rules.push_back(connected_rule)
+			possible_rules.push_back(connected_rule)
+			possible_rules.push_back(not_connected_rule)
+	
+	possible_connect_rules.shuffle()
+	possible_rules.shuffle()
+	
+	
+	var ruleset = []
+	
+	for rule in possible_connect_rules:
+		var candidate = ruleset.duplicate()
+		candidate.push_back(rule)
+		
+		if is_solveable(devices, hubs, cables, candidate):
+			ruleset.push_back(rule)
+			possible_rules.erase(rule)
+			
+		if ruleset.size() == dont_connect_limit:
+			break
+	
+	for rule in possible_rules:
+		var candidate = ruleset.duplicate()
+		candidate.push_back(rule)
+		
+		if is_solveable(devices, hubs, cables, candidate):
+			ruleset.push_back(rule)
+			
+		if ruleset.size() == difficulty:
+			break
+	
+	return ruleset
+
+	
+func rule_taken(device_a, device_b, ruleset):
+	for rule in ruleset:
+		if rule.portA == device_a and rule.portB == device_b:
+			return true
+		
+		if rule.portA == device_b and rule.portB == device_a:
+			return true
+			
+	return false
+
 func is_solveable(devices, hubs, cables, rules):
 	var verts = []
 	var vert_rules = []
@@ -35,11 +97,12 @@ func is_solveable(devices, hubs, cables, rules):
 		verts.push_back(Vert.new([], hub.get_port_count, hub))
 		
 	var valid_configs = get_valid_configs(verts, [], cables.size(), rules)
-	for config in valid_configs:
-		print("config ", config)
-		for edge in config: 
-			print("	(" + edge.a.associated_node.get_display_name() + "|" + edge.b.associated_node.get_display_name() + ")")
+#	for config in valid_configs:
+#		print("config ", config)
+#		for edge in config: 
+#			print("	(" + edge.a.associated_node.get_display_name() + "|" + edge.b.associated_node.get_display_name() + ")")
 	
+	return valid_configs.size() > 0
 	
 func get_valid_configs(verts, current_connections, remaining_connections, rules):
 	if remaining_connections == 0:

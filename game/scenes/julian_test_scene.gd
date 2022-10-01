@@ -12,8 +12,8 @@ var rule_book
 func _ready():
 	
 	
-	$Cable.vertexA = $DeviceA
-	$Cable.vertexB = $DeviceB
+	$Cable.vertex_a = $DeviceA
+	$Cable.vertex_b = $DeviceB
 	
 	$DeviceA.edges.push_back($Cable)
 	$DeviceB.edges.push_back($Cable)
@@ -22,10 +22,13 @@ func _ready():
 	rules.push_back(NotConnectedRule.new($DeviceB, $DeviceC))
 	update_text()
 	
+	for i in range(3):
+		var gen_ruleset = RuleSolver.new().generate_ruleset([$DeviceA, $DeviceB, $DeviceC, $DeviceD], [], [$Cable, $Cable], 3, 2)
+		for rule in gen_ruleset:
+			print(rule.get_description())
+		print("")
 	
-	RuleSolver.new().is_solveable([$DeviceA, $DeviceB, $DeviceC], [], [$Cable, $Cable], rules)
-	
-	print(check_satisfied())
+#	print(check_satisfied())
 
 func update_text():
 	var text = ""

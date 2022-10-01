@@ -3,10 +3,10 @@ extends StaticBody2D
 var counterpart setget set_counterpart
 var cable_length
 var debug_viz
+var cable_radius_viz_enabled = false setget set_cable_radius_viz_enabled
 
 var is_dragging = false
 var desired_position
-var cable_radius_viz_enabled = false
 var dragged_over_port
 var current_port
 
@@ -18,6 +18,10 @@ func set_counterpart(value):
 	counterpart.connect("started_dragging", self, "counterpart_started_dragging")
 	counterpart.connect("stopped_dragging", self, "counterpart_stopped_dragging")
 
+func set_cable_radius_viz_enabled(value):
+	cable_radius_viz_enabled = value
+	update()
+
 func get_start_position():
 	return position
 
@@ -25,12 +29,10 @@ func get_end_position():
 	return get_start_position()
 
 func counterpart_started_dragging():
-	cable_radius_viz_enabled = true
-	update()
+	set_cable_radius_viz_enabled(true)
 	
 func counterpart_stopped_dragging():
-	cable_radius_viz_enabled = false
-	update()
+	set_cable_radius_viz_enabled(false)
 
 func insert_into_port(port):
 	position = port.position
@@ -38,16 +40,13 @@ func insert_into_port(port):
 func on_area_entered(area):
 	if !area.is_in_group("port"):
 		return
-	
-	dragged_over_port = area.get_port()
-	dragged_over_port.hover_with_plug(self)
 
 func on_area_exited(area):
 	if !area.is_in_group("port"):
 		return
-	
-	dragged_over_port.unhover_with_plug(self)
-	dragged_over_port = null
+
+func can_connect_to_port(port):
+	return port.can_accept_plug() and counterpart.global_position.distance_to(port.global_position) <= cable_length
 
 func _draw():
 	if debug_viz and cable_radius_viz_enabled:
@@ -78,3 +77,25 @@ func _input_event(_viewport, event, _shape_idx):
 		if current_port != null:
 			current_port.remove_plug(self)
 			current_port = null
+
+func _process(_delta):
+	if is_dragging:
+		var closest_port
+		var closest_area_distance = INF
+		for area in $Area2D.get_overlapping_areas():
+			if !area.is_in_group("port"):
+				continue
+			var port = area.get_port()
+			if !can_connect_to_port(port):
+				continue
+			
+			var distance = global_position.distance_squared_to(port.global_position)
+			if distance < closest_area_distance:
+				closest_port = port
+				closest_area_distance = distance
+			
+		if closest_port != dragged_over_port and dragged_over_port != null:
+			dragged_over_port.unhover_with_plug(self)
+		dragged_over_port = closest_port
+		if dragged_over_port != null:
+			dragged_over_port.hover_with_plug(self)

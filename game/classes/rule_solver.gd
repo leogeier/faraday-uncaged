@@ -56,7 +56,9 @@ func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 		var candidate = ruleset.duplicate()
 		candidate.push_back(rule)
 		
-		if is_solveable(devices, hubs, cables, candidate):
+		var solutions = solve(devices, hubs, cables, candidate)
+		
+		if solutions.size() > 0:
 			ruleset.push_back(rule)
 			possible_rules.erase(rule)
 			
@@ -67,10 +69,17 @@ func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 		var candidate = ruleset.duplicate()
 		candidate.push_back(rule)
 		
-		if is_solveable(devices, hubs, cables, candidate):
+		var solutions = solve(devices, hubs, cables, candidate)
+		
+		if solutions.size() > 0:
 			ruleset.push_back(rule)
 			
 		if ruleset.size() == difficulty:
+			for connection in solutions[0]:
+				print(
+					connection.a.associated_node.get_display_name()
+					+ "|" + connection.b.associated_node.get_display_name()
+				)
 			break
 	
 	return ruleset
@@ -86,7 +95,7 @@ func rule_taken(device_a, device_b, ruleset):
 			
 	return false
 
-func is_solveable(devices, hubs, cables, rules):
+func solve(devices, hubs, cables, rules):
 	var verts = []
 	var vert_rules = []
 	
@@ -94,15 +103,11 @@ func is_solveable(devices, hubs, cables, rules):
 		verts.push_back(Vert.new([], 1, device))
 		
 	for hub in hubs:
-		verts.push_back(Vert.new([], hub.get_port_count, hub))
+		verts.push_back(Vert.new([], hub.get_port_count(), hub))
 		
 	var valid_configs = get_valid_configs(verts, [], cables.size(), rules)
-#	for config in valid_configs:
-#		print("config ", config)
-#		for edge in config: 
-#			print("	(" + edge.a.associated_node.get_display_name() + "|" + edge.b.associated_node.get_display_name() + ")")
 	
-	return valid_configs.size() > 0
+	return valid_configs
 	
 func get_valid_configs(verts, current_connections, remaining_connections, rules):
 	if remaining_connections == 0:
@@ -152,5 +157,3 @@ func check_rules(verts, rules):
 			return false
 			
 	return true
-		
-		

@@ -17,3 +17,9 @@ position = Vector2( 30, 23 )
 segment_length = 10
 cable_length = 100
 debug_viz = true
+
+[node name="Cable2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 254, 71 )
+segment_length = 10
+cable_length = 100
+debug_viz = true

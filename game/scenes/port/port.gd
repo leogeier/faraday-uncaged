@@ -2,6 +2,9 @@ extends Node2D
 
 var current_plug
 
+signal start_dragging
+signal stopped_dragging
+
 func hover_with_plug(_plug):
 	modulate = Color.green
 

@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "Rule",
 "language": "GDScript",
 "path": "res://classes/rule.gd"
+}, {
+"base": "Reference",
+"class": "RuleSolver",
+"language": "GDScript",
+"path": "res://classes/rule_solver.gd"
 } ]
 _global_script_class_icons={
 "ConnectedRule": "",
 "NotConnectedRule": "",
-"Rule": ""
+"Rule": "",
+"RuleSolver": ""
 }
 
 [application]
@@ -40,8 +46,8 @@ config/icon="res://icon.png"
 
 window/size/width=400
 window/size/height=200
-window/size/test_width=1600
-window/size/test_height=800
+window/size/test_width=400
+window/size/test_height=200
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 

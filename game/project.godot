@@ -11,7 +11,17 @@ config_version=4
 [application]
 
 config/name="ld51"
+run/main_scene="res://scenes/main.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/width=400
+window/size/height=200
+window/size/test_width=1600
+window/size/test_height=800
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
 
 [gui]
 

@@ -25,6 +25,8 @@ func get_neighbors():
 	return dedup(neighbors)
 
 static func dedup(arr):
+	if arr.empty():
+		return arr
 	arr.sort()
 	var new_arr = [arr[0]]
 	for i in range(1, arr.size()):

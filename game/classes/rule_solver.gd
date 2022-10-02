@@ -93,6 +93,10 @@ func solve(devices, hubs, cables, rules):
 	var verts = []
 	var vert_rules = []
 	
+	# ignore rules that don't change anything in the current real configuration
+	if already_solved(rules):
+		return false
+	
 	for device in devices:
 		verts.push_back(Vert.new([], 1, device))
 		
@@ -236,6 +240,11 @@ func reconstruct_verts(old_verts):
 		
 	return new_verts
 		
+func already_solved(rules):
+	for rule in rules:
+		if not rule.check():
+			return false
+	return true
 
 func check_rules(verts, rules):
 	var fixed_verts = reconstruct_verts(verts)

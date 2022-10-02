@@ -55,7 +55,7 @@ func on_power_surge():
 	$Viewport/LightningCanvas.draw_lightning(get_electrified_cables(), 1.0)
 	
 	rounds += 1
-	difficulty = ceil(sqrt(rounds))
+	difficulty = ceil(rounds / 3.0)
 		
 	create_new_rules()
 	

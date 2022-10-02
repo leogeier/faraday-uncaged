@@ -52,7 +52,7 @@ func on_power_surge():
 	create_new_rules()
 	
 func create_new_rules():
-	var new_rules = rule_solver.generate_ruleset($FuseBox.get_devices(), $ToolBox.get_hubs(), $ToolBox.get_cables(), difficulty, 1)
+	var new_rules = rule_solver.generate_ruleset($FuseBox.get_devices(), $ToolBox.get_hubs(), $ToolBox.get_cables(), difficulty, ceil(difficulty * 0.5))
 	set_rules(new_rules)
 
 func _process(delta):

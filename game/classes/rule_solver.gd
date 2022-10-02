@@ -26,7 +26,7 @@ class Edge:
 		self.a = a
 		self.b = b
 		
-
+# TODO: dont generate rules twice
 func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 	var possible_rules = []
 	var possible_connect_rules = []

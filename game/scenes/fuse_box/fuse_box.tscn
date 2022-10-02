@@ -27,11 +27,11 @@ display_name = "C"
 color = Color( 0, 1, 0, 1 )
 
 [node name="Device4" parent="." instance=ExtResource( 2 )]
-position = Vector2( 148, 97 )
+position = Vector2( 168, 142 )
 display_name = "D"
 color = Color( 1, 1, 0, 1 )
 
 [node name="Device5" parent="." instance=ExtResource( 2 )]
-position = Vector2( 140, 162 )
+position = Vector2( 139, 171 )
 display_name = "E"
 color = Color( 1, 0, 1, 1 )

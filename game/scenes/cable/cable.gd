@@ -80,7 +80,7 @@ func _process(_delta):
 			at_cable_length = true
 			$AnimationPlayer.play("to_stretched_width")
 	else:
-		if plug_distance() < cable_length * 0.9:
+		if plug_distance() < cable_length * 0.95:
 			at_cable_length = false
 			$AnimationPlayer.play("to_unstretched_width")
 	

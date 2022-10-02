@@ -13,8 +13,8 @@ signal game_lost
 func _ready():
 	rule_solver = RuleSolver.new()
 	$ToolBox.add_cable_short()
-	$ToolBox.add_cable_short()
-	$ToolBox.add_cable_short()
+	$ToolBox.add_cable_long()
+	$ToolBox.add_cable_long()
 	$ToolBox.add_hub_3()
 	create_new_rules()
 

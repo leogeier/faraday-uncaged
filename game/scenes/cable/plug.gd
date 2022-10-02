@@ -93,11 +93,11 @@ func start_dragging():
 		current_port = null
 	if !counterpart.is_plugging_in():
 		counterpart.set_is_frozen(false)
-		cable_radius_viz_enabled = true
+		set_cable_radius_viz_enabled(true)
 	emit_signal("started_dragging")
 
 func stop_dragging():
-	cable_radius_viz_enabled = false
+	set_cable_radius_viz_enabled(false)
 	is_dragging = false
 	if dragged_over_port != null:
 		current_port = dragged_over_port 

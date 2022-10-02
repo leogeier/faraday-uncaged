@@ -45,6 +45,7 @@ config/icon="res://icon.png"
 [autoload]
 
 DraggingService="*res://classes/dragging_service.gd"
+Score="*res://classes/score.gd"
 
 [display]
 

@@ -43,6 +43,7 @@ func regenerate():
 	assert(cable_length % segment_length == 0, "cable_length is not a multiple of segment_length")
 	for segment in segments:
 		segment.queue_free()
+	segments = []
 	
 	var previous_segment = $PlugA
 	for _i in range(cable_length / segment_length):

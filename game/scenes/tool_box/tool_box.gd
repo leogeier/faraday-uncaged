@@ -3,13 +3,13 @@ extends Node2D
 
 func add_cable_short():
 	var cable = preload("res://scenes/cable/cable.tscn").instance()
-	cable.cable_length = 80
+	cable.cable_length = 50
 	cable.regenerate()
 	$Cables.add_child(cable)
 	
 func add_cable_long():
 	var cable = preload("res://scenes/cable/cable.tscn").instance()
-	cable.cable_length = 150
+	cable.cable_length = 80
 	cable.regenerate()
 	$Cables.add_child(cable)
 	

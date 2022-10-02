@@ -125,7 +125,7 @@ func _input(event):
 	if event is InputEventMouseButton and !event.pressed and is_dragging:
 		stop_dragging()
 
-func _process(_delta):
+func _physics_process(_delta):
 	if is_dragging:
 		var closest_port
 		var closest_area_distance = INF
@@ -147,8 +147,12 @@ func _process(_delta):
 		if dragged_over_port != null:
 			dragged_over_port.hover_with_plug(self)
 	
+	var area_scale = 1 + min(3, linear_velocity.length() * 0.01)
+	$Area2D/CollisionShape2D2.scale = Vector2.ONE * area_scale
+
+func _process(_delta):
 	update()
 
 func _integrate_forces(state):
-	if counterpart.is_dragging and counterpart.position.distance_to(position) > cable_length:
+	if (counterpart.is_dragging or counterpart.is_plugging_in()) and counterpart.position.distance_to(position) > cable_length:
 		position = counterpart.position + counterpart.position.direction_to(position) * cable_length

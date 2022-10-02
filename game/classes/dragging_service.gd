@@ -1,12 +1,15 @@
 extends Node
 
-func _input(event):
-	if !(event is InputEventMouseButton and event.pressed):
-		return
-	
+var events = []
+
+func process_event(event):
 	var mouse_position = event.position
 	var space_state = get_tree().get_root().get_viewport().get_world_2d().direct_space_state
 	var intersects = space_state.intersect_point(mouse_position, 32, [], 0x7FFFFFFF, true, true)
+#	for i in intersects:
+#		if i["collider"].is_in_group("draggable"):
+#			print(i["collider"].owner)
+#	print("-------")
 	if intersects.empty():
 		return
 	
@@ -24,3 +27,16 @@ func _input(event):
 		return
 	
 	best.start_dragging()
+
+func _input(event):
+	if !(event is InputEventMouseButton and event.pressed):
+		return
+	events.push_back(event)
+
+func _physics_process(delta):
+	for event in events:
+		process_event(event)
+	events = []
+
+func _ready():
+	process_priority = 100

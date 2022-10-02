@@ -42,6 +42,10 @@ config/name="ld51"
 run/main_scene="res://scenes/leo_test_scene.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+DraggingService="*res://classes/dragging_service.gd"
+
 [display]
 
 window/size/width=400

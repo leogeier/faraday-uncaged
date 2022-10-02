@@ -7,6 +7,7 @@ var edges = []
 func get_edges():
 	if $Port.current_plug != null:
 		return [$Port.current_plug.cable]
+	return []
 
 func get_neighbors():
 	var neighbors = []

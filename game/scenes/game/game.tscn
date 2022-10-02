@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/game/game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/rule_display/rule_display.tscn" type="PackedScene" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://music/power_surge.wav" type="AudioStream" id=4]
 [ext_resource path="res://scenes/fuse_box/fuse_box.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/tool_box/tool_box.tscn" type="PackedScene" id=6]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 400, 50 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -27,5 +30,12 @@ position = Vector2( 100, 0 )
 
 [node name="ToolBox" parent="." instance=ExtResource( 6 )]
 position = Vector2( 300, 0 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 0, 200 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 0, 50 )
+shape = SubResource( 1 )
 
 [connection signal="timeout" from="SurgeTimer" to="." method="on_power_surge"]

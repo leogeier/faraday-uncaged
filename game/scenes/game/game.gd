@@ -9,6 +9,8 @@ var rule_solver
 func _ready():
 	rule_solver = RuleSolver.new()
 	$ToolBox.add_cable()
+	$ToolBox.add_cable()
+	$ToolBox.add_cable()
 	yield(get_tree().create_timer(5.0), "timeout")
 	start_cycle()
 
@@ -45,6 +47,6 @@ func on_power_surge():
 	create_new_rules()
 	
 func create_new_rules():
-	var new_rules = rule_solver.generate_ruleset($FuseBox.get_devices(), [], [], 1, 1)
+	var new_rules = rule_solver.generate_ruleset($FuseBox.get_devices(), $ToolBox.get_hubs(), $ToolBox.get_cables(), 1, 1)
 	set_rules(new_rules)
 

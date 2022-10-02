@@ -14,6 +14,6 @@ func _ready():
 func update_rules(new_rules):
 	var text = ""
 	for rule in new_rules:
-		text += rule.get_description() + "\n"
+		text += rule.get_description() + "\n\n"
 		
 	$Text.text = text

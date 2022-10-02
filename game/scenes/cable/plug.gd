@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends RigidBody2D
 
 var counterpart setget set_counterpart
 var cable_length
@@ -31,18 +31,21 @@ func set_cable_radius_viz_enabled(value):
 	update()
 
 func get_drag_priority():
-	return 20 if current_port == null else 10
+	return 10 if is_plugging_in() else 20
 
 func get_vertex():
-	if current_port == null:
-		return null
-	return current_port.vertex
+	if is_plugging_in():
+		return current_port.vertex
+	return null
 
 func get_start_position():
 	return position
 
 func get_end_position():
 	return get_start_position()
+
+func is_plugging_in():
+	return current_port != null
 
 func distance_to(point):
 	return position.distance_to(point)
@@ -77,15 +80,36 @@ func enable_signal_reached_max_distance():
 		can_signal_reached_max_distance = true
 		emit_signal("away_from_max_distance")
 
+func start_dragging():
+	is_dragging = true
+	mode = RigidBody2D.MODE_KINEMATIC
+	desired_position = position
+	if is_plugging_in():
+		current_port.remove_plug(self)
+		current_port = null
+	emit_signal("started_dragging")
+
+func stop_dragging():
+	is_dragging = false
+	if dragged_over_port != null:
+		current_port = dragged_over_port
+		mode = RigidBody2D.MODE_STATIC
+		# need to wait a frame because the remote transform doesn't apply at first sometimes otherwise
+		yield(get_tree(), "idle_frame")
+		current_port.insert_plug(self)
+	else:
+		mode = RigidBody2D.MODE_RIGID
+	emit_signal("stopped_dragging")
+
 func _draw():
-	if debug_viz and cable_radius_viz_enabled:
+	if debug_viz and cable_radius_viz_enabled and is_plugging_in():
 		draw_arc(Vector2.ZERO, cable_length, 0, TAU, 30, Color.red)
 
 func _input(event):
 	if event is InputEventMouseMotion:
 		if is_dragging:
 			desired_position += event.relative
-			if desired_position.distance_to(counterpart.position) > cable_length:
+			if counterpart.is_plugging_in() and desired_position.distance_to(counterpart.position) > cable_length:
 				position = counterpart.position + counterpart.position.direction_to(desired_position) * cable_length
 #				signal_reached_max_distance()
 			else:
@@ -94,20 +118,8 @@ func _input(event):
 #					enable_signal_reached_max_distance()
 			position = position.floor()
 	
-	if event is InputEventMouseButton and !event.pressed:
-		is_dragging = false
-		emit_signal("stopped_dragging")
-		if dragged_over_port != null:
-			current_port = dragged_over_port
-			current_port.insert_plug(self)
-
-func start_dragging():
-	is_dragging = true
-	desired_position = position
-	emit_signal("started_dragging")
-	if current_port != null:
-		current_port.remove_plug(self)
-		current_port = null
+	if event is InputEventMouseButton and !event.pressed and is_dragging:
+		stop_dragging()
 
 func _process(_delta):
 	if is_dragging:

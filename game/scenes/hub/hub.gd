@@ -47,3 +47,5 @@ func _input_event(_viewport, event, _shape_idx):
 #		emit_signal("started_dragging")
 		for plug in get_connected_plugs():
 				plug.counterpart.cable_radius_viz_enabled = true
+				
+

@@ -53,6 +53,8 @@ func _ready():
 	$PlugB.counterpart = $PlugA
 	$PlugA.cable_length = cable_length
 	$PlugB.cable_length = cable_length
+	$PlugA.cable = self
+	$PlugB.cable = self
 	
 	at_cable_length = is_at_cable_length()
 

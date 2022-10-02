@@ -4,6 +4,7 @@ var counterpart setget set_counterpart
 var cable_length
 var debug_viz
 var cable_radius_viz_enabled = false setget set_cable_radius_viz_enabled
+var cable
 
 var is_dragging = false
 var desired_position
@@ -31,7 +32,7 @@ func set_cable_radius_viz_enabled(value):
 func get_vertex():
 	if current_port == null:
 		return null
-	return current_port.hub
+	return current_port.vertex
 
 func get_start_position():
 	return position

@@ -1,6 +1,6 @@
 extends Node2D
 
-var hub
+var vertex
 
 var current_plug
 

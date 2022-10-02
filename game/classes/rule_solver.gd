@@ -55,7 +55,7 @@ func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 	var ruleset = []
 	
 	for rule in possible_connect_rules:
-		if ruleset.size() == dont_connect_limit:
+		if ruleset.size() >= dont_connect_limit:
 			break
 			
 		var candidate = ruleset.duplicate()
@@ -63,13 +63,13 @@ func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 		
 		var solutions = solve(devices, hubs, cables, candidate)
 		
-		if solutions.size() > 0:
+		if not solutions.empty():
 			ruleset.push_back(rule)
 			possible_rules.erase(rule)
 			
 	
 	for rule in possible_rules:
-		if ruleset.size() == difficulty:
+		if ruleset.size() >= difficulty:
 			break
 			
 		var candidate = ruleset.duplicate()
@@ -77,7 +77,7 @@ func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 		
 		var solutions = solve(devices, hubs, cables, candidate)
 		
-		if solutions.size() > 0:
+		if not solutions.empty():
 			ruleset.push_back(rule)
 	
 	return ruleset

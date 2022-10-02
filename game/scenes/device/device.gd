@@ -12,7 +12,9 @@ func get_edges():
 func get_neighbors():
 	var neighbors = []
 	for edge in get_edges():
-		neighbors.append(edge.get_other_vertex(self))
+		var other_vertex = edge.get_other_vertex(self)
+		if other_vertex != null:
+			neighbors.append(other_vertex)
 	return neighbors
 
 func get_display_name():

@@ -8,6 +8,7 @@
 radius = 5.0
 
 [node name="Plug" type="RigidBody2D" groups=["draggable"]]
+collision_mask = 0
 input_pickable = true
 script = ExtResource( 2 )
 

@@ -8,6 +8,8 @@ extents = Vector2( 5, 1 )
 [node name="CableSegment" type="RigidBody2D"]
 collision_layer = 2
 collision_mask = 0
+gravity_scale = 1.82
+linear_damp = 1.345
 script = ExtResource( 2 )
 
 [node name="StartPosition" type="Position2D" parent="."]

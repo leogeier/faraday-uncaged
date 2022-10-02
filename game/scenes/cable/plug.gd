@@ -11,9 +11,12 @@ var desired_position
 var dragged_over_port
 var current_port
 var can_signal_reached_max_distance = true
+onready var prev_position = position
 
 var drag_priority setget , get_drag_priority
 var vertex setget , get_vertex
+
+onready var trail_shapes = [$Trail1, $Trail2, $Trail3]
 
 signal started_dragging
 signal stopped_dragging
@@ -87,6 +90,7 @@ func enable_signal_reached_max_distance():
 func start_dragging():
 	is_dragging = true
 	mode = RigidBody2D.MODE_KINEMATIC
+	position = transform.xform(get_local_mouse_position())
 	desired_position = position
 	if is_plugging_in():
 		current_port.remove_plug(self)
@@ -125,6 +129,14 @@ func _input(event):
 	if event is InputEventMouseButton and !event.pressed and is_dragging:
 		stop_dragging()
 
+func _input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton and event.pressed:
+		print("click ", Time.get_ticks_msec())
+		DraggingService._input(event)
+		yield(get_tree().create_timer(0.1), "timeout")
+		if !is_dragging:
+			print("boooh")
+
 func _physics_process(_delta):
 	if is_dragging:
 		var closest_port
@@ -147,8 +159,20 @@ func _physics_process(_delta):
 		if dragged_over_port != null:
 			dragged_over_port.hover_with_plug(self)
 	
+	var trail_pos = prev_position - position
+	var trail_scale = $CollisionShape2D.scale
+	for trail in trail_shapes:
+		var new_trail_pos = trail_pos + trail.position
+		var new_trail_scale = trail.scale
+		trail.position = trail_pos
+		trail.scale = trail_scale
+		trail_pos = new_trail_pos
+		trail_scale = new_trail_scale
+	
 	var area_scale = 1 + min(3, linear_velocity.length() * 0.01)
-	$Area2D/CollisionShape2D2.scale = Vector2.ONE * area_scale
+	$CollisionShape2D.scale = Vector2.ONE * area_scale
+	
+	prev_position = position
 
 func _process(_delta):
 	update()
@@ -156,3 +180,7 @@ func _process(_delta):
 func _integrate_forces(state):
 	if (counterpart.is_dragging or counterpart.is_plugging_in()) and counterpart.position.distance_to(position) > cable_length:
 		position = counterpart.position + counterpart.position.direction_to(position) * cable_length
+
+func _ready():
+	for trail in trail_shapes:
+		trail.shape = $CollisionShape2D.shape.duplicate()

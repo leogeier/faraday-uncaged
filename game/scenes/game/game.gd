@@ -56,6 +56,13 @@ func on_power_surge():
 	
 	rounds += 1
 	difficulty = ceil(sqrt(rounds))
+	
+	if rounds == 10:
+		$ToolBox.add_cable_short()
+		$ToolBox.add_hub_3()
+		
+	if rounds == 15:
+		$ToolBox.add_cable_long()
 		
 	create_new_rules()
 	

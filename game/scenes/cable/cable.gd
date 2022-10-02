@@ -20,6 +20,13 @@ func set_is_frozen(value):
 	is_frozen = value
 	$PlugA.set_is_frozen(is_frozen)
 	$PlugB.set_is_frozen(is_frozen)
+	
+func freeze():
+	set_is_frozen(true)
+	
+func unfreeze():
+	set_is_frozen(false)
+	
 
 func get_vertex_a():
 	return $PlugA.vertex

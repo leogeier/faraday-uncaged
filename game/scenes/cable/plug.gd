@@ -92,7 +92,7 @@ func start_dragging():
 func stop_dragging():
 	is_dragging = false
 	if dragged_over_port != null:
-		current_port = dragged_over_port
+		current_port = dragged_over_port 
 		mode = RigidBody2D.MODE_STATIC
 		# need to wait a frame because the remote transform doesn't apply at first sometimes otherwise
 		yield(get_tree(), "idle_frame")

@@ -48,6 +48,7 @@ func distance_to(point):
 
 func _ready():
 	add_to_group("draggable")
+	add_to_group("hub")
 	for port in $Ports.get_children():
 		port.vertex = self
 

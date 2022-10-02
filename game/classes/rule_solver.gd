@@ -126,6 +126,9 @@ func filter_direct_connections(connections, cables):
 	cables.sort_custom(CableSorter.new(), "compare")
 	
 	for connection in connections_copy:
+		if connection.a.associated_node.is_in_group("hub") or connection.b.associated_node.is_in_group("hub"):
+			continue
+		
 		var pos_a = connection.a.associated_node.global_position
 		var pos_b = connection.b.associated_node.global_position
 		

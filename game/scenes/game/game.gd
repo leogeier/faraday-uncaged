@@ -5,10 +5,11 @@ var current_rules = []
 var rule_solver
 
 var started = false
+var rounds = 0
+var difficulty = 1
 
 signal game_lost
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	rule_solver = RuleSolver.new()
 	$ToolBox.add_cable_short()
@@ -45,10 +46,13 @@ func on_power_surge():
 	if not check_rules():
 		die()
 		
+	rounds += 1
+	difficulty = ceil(sqrt(rounds))
+		
 	create_new_rules()
 	
 func create_new_rules():
-	var new_rules = rule_solver.generate_ruleset($FuseBox.get_devices(), $ToolBox.get_hubs(), $ToolBox.get_cables(), 4, 1)
+	var new_rules = rule_solver.generate_ruleset($FuseBox.get_devices(), $ToolBox.get_hubs(), $ToolBox.get_cables(), difficulty, 1)
 	set_rules(new_rules)
 
 func _process(delta):

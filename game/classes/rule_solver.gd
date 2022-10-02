@@ -61,9 +61,7 @@ func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 		var candidate = ruleset.duplicate()
 		candidate.push_back(rule)
 		
-		var solutions = solve(devices, hubs, cables, candidate)
-		
-		if not solutions.empty():
+		if solve(devices, hubs, cables, candidate):
 			ruleset.push_back(rule)
 			possible_rules.erase(rule)
 			
@@ -75,9 +73,7 @@ func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 		var candidate = ruleset.duplicate()
 		candidate.push_back(rule)
 		
-		var solutions = solve(devices, hubs, cables, candidate)
-		
-		if not solutions.empty():
+		if solve(devices, hubs, cables, candidate):
 			ruleset.push_back(rule)
 	
 	return ruleset
@@ -105,7 +101,49 @@ func solve(devices, hubs, cables, rules):
 		
 	var valid_configs = get_valid_configs(verts, cables.size(), rules)
 	
-	return valid_configs
+	for config in valid_configs:
+		if solve_spacially(config, cables):
+			return true
+	
+	return false
+	
+func solve_spacially(config, cables):
+	var remaining_connections = config.duplicate()
+	var remaining_cables = cables.duplicate()
+	
+	if not filter_direct_connections(remaining_connections, remaining_cables):
+		return false
+		
+	return true
+	
+class CableSorter:
+	func compare(q1, q2):
+		return q1.cable_length < q2.cable_length
+
+func filter_direct_connections(connections, cables):
+	var connections_copy = connections.duplicate()
+	cables.sort_custom(CableSorter.new(), "compare")
+	
+	for connection in connections_copy:
+		var pos_a = connection.a.associated_node.global_position
+		var pos_b = connection.b.associated_node.global_position
+		
+		var length = pos_a.distance_to(pos_b)
+		
+		var matching_cable = null
+		for cable in cables:
+			if cable.cable_length >= length:
+				matching_cable = cable
+				break
+		
+		if matching_cable == null:
+			return false
+			
+		cables.erase(matching_cable)
+		connections.erase(connection)
+		
+	return true
+	
 	
 class BeamSearchQuery:
 	var verts

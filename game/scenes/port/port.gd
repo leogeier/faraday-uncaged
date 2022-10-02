@@ -1,5 +1,7 @@
 extends Node2D
 
+var hub
+
 var current_plug
 
 signal start_dragging

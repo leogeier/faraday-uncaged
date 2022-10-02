@@ -11,6 +11,8 @@ var dragged_over_port
 var current_port
 var can_signal_reached_max_distance = true
 
+var vertex setget , get_vertex
+
 signal started_dragging
 signal stopped_dragging
 
@@ -25,6 +27,11 @@ func set_counterpart(value):
 func set_cable_radius_viz_enabled(value):
 	cable_radius_viz_enabled = value
 	update()
+
+func get_vertex():
+	if current_port == null:
+		return null
+	return current_port.hub
 
 func get_start_position():
 	return position

@@ -18,6 +18,10 @@ func get_connected_plugs():
 			plugs.push_back(port.current_plug)
 	return plugs
 
+func _ready():
+	for port in $Ports.get_children():
+		port.hub = self
+
 func _input(event):
 	if event is InputEventMouseMotion:
 		if is_dragging:

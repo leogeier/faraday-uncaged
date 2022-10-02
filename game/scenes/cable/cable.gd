@@ -3,6 +3,7 @@ extends Node2D
 export(int) var segment_length = 5
 export(int) var cable_length = 50
 export(bool) var debug_viz = false setget set_debug_viz
+export(bool) var is_frozen = false setget set_is_frozen
 
 var last_segment
 #var cable_width = 2
@@ -13,6 +14,11 @@ func set_debug_viz(value):
 	debug_viz = value
 	$PlugA.debug_viz = debug_viz
 	$PlugB.debug_viz = debug_viz
+
+func set_is_frozen(value):
+	is_frozen = value
+	$PlugA.set_is_frozen(is_frozen)
+	$PlugB.set_is_frozen(is_frozen)
 
 func get_other_vertex(vertex):
 	if vertex == $PlugA.vertex:
@@ -55,6 +61,7 @@ func _ready():
 	$PlugB.cable_length = cable_length
 	$PlugA.cable = self
 	$PlugB.cable = self
+	set_is_frozen(is_frozen)
 	
 	at_cable_length = is_at_cable_length()
 

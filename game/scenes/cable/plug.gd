@@ -44,6 +44,10 @@ func get_start_position():
 func get_end_position():
 	return get_start_position()
 
+func set_is_frozen(is_frozen):
+	if !is_plugging_in():
+		mode = RigidBody2D.MODE_STATIC if is_frozen else RigidBody2D.MODE_RIGID
+
 func is_plugging_in():
 	return current_port != null
 
@@ -87,6 +91,8 @@ func start_dragging():
 	if is_plugging_in():
 		current_port.remove_plug(self)
 		current_port = null
+	if !counterpart.is_plugging_in():
+		counterpart.set_is_frozen(false)
 	emit_signal("started_dragging")
 
 func stop_dragging():

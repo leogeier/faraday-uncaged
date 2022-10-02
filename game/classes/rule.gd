@@ -2,7 +2,8 @@ extends Reference
 
 class_name Rule
 
-
+func get_rule_name():
+	assert(false, "implement in subclass")
 
 func get_description():
 	return ""

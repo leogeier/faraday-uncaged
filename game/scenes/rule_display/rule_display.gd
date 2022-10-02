@@ -1,19 +1,12 @@
 extends Node2D
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	pass
 
 func update_rules(new_rules):
-	var text = ""
+	for child in $RuleVizContainer.get_children():
+		child.queue_free()
 	for rule in new_rules:
-		text += rule.get_description() + "\n\n"
-		
-	$Text.text = text
+		var viz = preload("res://scenes/rule_display/rule_viz.tscn").instance()
+		viz.create_from(rule)
+		$RuleVizContainer.add_child(viz)

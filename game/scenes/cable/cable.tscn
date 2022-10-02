@@ -14,10 +14,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.08, 0.18, 0.29 ),
+"times": PoolRealArray( 0.02, 0.13, 0.29 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 4.0, 1.0, 1.5 ]
+"values": [ 5.0, 1.0, 1.5 ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -34,12 +34,12 @@ tracks/0/keys = {
 "times": PoolRealArray( 0.4 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 2.5 ]
+"values": [ 3.0 ]
 }
 
 [node name="Cable" type="Node2D"]
 script = ExtResource( 3 )
-current_cable_width = 2.0
+current_cable_width = 2.5
 
 [node name="PlugA" parent="." instance=ExtResource( 1 )]
 

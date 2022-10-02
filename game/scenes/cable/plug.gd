@@ -72,11 +72,11 @@ func _input(event):
 			desired_position += event.relative
 			if desired_position.distance_to(counterpart.position) > cable_length:
 				position = counterpart.position + counterpart.position.direction_to(desired_position) * cable_length
-				signal_reached_max_distance()
+#				signal_reached_max_distance()
 			else:
 				position = desired_position
-				if position.distance_to(counterpart.position) < cable_length * 0.9:
-					enable_signal_reached_max_distance()
+#				if position.distance_to(counterpart.position) < cable_length * 0.9:
+#					enable_signal_reached_max_distance()
 			position = position.floor()
 	
 	if event is InputEventMouseButton and !event.pressed:

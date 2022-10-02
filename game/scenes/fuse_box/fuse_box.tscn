@@ -6,6 +6,11 @@
 [node name="FuseBox" type="Node2D"]
 script = ExtResource( 1 )
 
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 200.0
+margin_bottom = 200.0
+color = Color( 0.266667, 0.266667, 0.266667, 1 )
+
 [node name="Device" parent="." instance=ExtResource( 2 )]
 position = Vector2( 51, 64 )
 display_name = "Red"
@@ -17,7 +22,7 @@ display_name = "B"
 color = Color( 0, 0, 1, 1 )
 
 [node name="Device3" parent="." instance=ExtResource( 2 )]
-position = Vector2( 148, 31 )
+position = Vector2( 140, 31 )
 display_name = "C"
 color = Color( 0, 1, 0, 1 )
 
@@ -27,6 +32,6 @@ display_name = "D"
 color = Color( 1, 1, 0, 1 )
 
 [node name="Device5" parent="." instance=ExtResource( 2 )]
-position = Vector2( 148, 162 )
+position = Vector2( 140, 162 )
 display_name = "E"
 color = Color( 1, 0, 1, 1 )

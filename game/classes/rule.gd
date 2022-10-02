@@ -21,7 +21,7 @@ func find_vert(node, verts):
 	assert(false)
 
 
-func run_bfs(from):
+static func run_bfs(from):
 	var discovered = [from]
 	var processed = []
 	

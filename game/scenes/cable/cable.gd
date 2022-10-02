@@ -10,6 +10,7 @@ var last_segment
 export(float) var current_cable_width = 3
 var segments = []
 
+
 func set_debug_viz(value):
 	debug_viz = value
 	$PlugA.debug_viz = debug_viz
@@ -20,11 +21,17 @@ func set_is_frozen(value):
 	$PlugA.set_is_frozen(is_frozen)
 	$PlugB.set_is_frozen(is_frozen)
 
+func get_vertex_a():
+	return $PlugA.vertex
+
+func get_vertex_b():
+	return $PlugB.vertex
+	
 func get_other_vertex(vertex):
-	if vertex == $PlugA.vertex:
-		return $PlugB.vertex
-	if vertex == $PlugB.vertex:
-		return $PlugA.vertex
+	if vertex == get_vertex_a():
+		return get_vertex_b()
+	if vertex == get_vertex_b():
+		return get_vertex_a()
 	assert(false, "given vertex is not connected to edge")
 
 func on_plug_reached_max_distance():
@@ -87,6 +94,15 @@ func _process(_delta):
 	for segment in segments:
 		segment.cable_width = current_cable_width
 	update()
+	
+func get_point_sequence():
+	var point_sequence = []
+		
+	for segment in segments:
+		point_sequence.push_back(global_position + segment.get_start_position())
+		point_sequence.push_back(global_position + segment.get_end_position())
+	
+	return point_sequence	
 
 func _draw():
 	draw_line($PlugB.position, last_segment.get_end_position(), Color.black, current_cable_width)

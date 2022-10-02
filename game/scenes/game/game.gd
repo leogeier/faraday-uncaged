@@ -16,14 +16,20 @@ func _ready():
 	$ToolBox.add_cable_long()
 	$ToolBox.add_cable_long()
 	$ToolBox.add_hub_3()
+	
+	#$Viewport/LightningCanvas.draw_lightning($ToolBox.get_cables(), 10000.0)
+		
+	
+#	var vt = ViewportTexture.new()
+#	vt.viewport_path = $Viewport.get_path()
+#	$ColorRect.material.set_shader_param("lightning_buffer", vt)
+	
 	create_new_rules()
 
 
 func set_rules(rules):
 	current_rules = rules
 	$RuleDisplay.update_rules(rules)
-	
-
 
 func check_rules(rules):
 	for rule in rules:
@@ -47,16 +53,42 @@ func on_power_surge():
 	if not check_rules(current_rules):
 		die()
 		
+	$Viewport/LightningCanvas.draw_lightning(get_electrified_cables(), 1.0)
+	
 	rounds += 1
 	difficulty = ceil(sqrt(rounds))
 		
 	create_new_rules()
 	
+func get_electrified_cables():
+	var electrified_nodes = []
+	for device in $FuseBox.get_devices():
+		var bfs_result = Rule.run_bfs(device)
+		for node in bfs_result:
+			if not electrified_nodes.has(node):
+				electrified_nodes.push_back(node)
+				
+	print(electrified_nodes)
+	
+	var electrified_cables = []
+	for cable in $ToolBox.get_cables():
+		if (electrified_nodes.has(cable.get_vertex_a())
+			or electrified_nodes.has(cable.get_vertex_b())):
+				electrified_cables.append(cable)
+				
+	
+	print(electrified_cables)
+				
+	return electrified_cables
+		
+	
 func create_new_rules():
 	var new_rules = current_rules
-	while check_rules(new_rules):
+	for i in range(5):
 		new_rules = rule_solver.generate_ruleset($FuseBox.get_devices(), $ToolBox.get_hubs(), $ToolBox.get_cables(), difficulty, ceil(difficulty * 0.5))
-	
+		if not check_rules(new_rules):
+			break
+		
 	set_rules(new_rules)
 
 func _process(delta):

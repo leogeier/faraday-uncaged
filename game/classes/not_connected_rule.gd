@@ -11,13 +11,13 @@ func _init(portA, portB):
 
 
 func check():
-	var bfs_result = self.run_bfs(portA)
+	var bfs_result = Rule.run_bfs(portA)
 	
 	return not bfs_result.has(self.portB)
 	
 
 func check_on_verts(verts):
-	var bfs_result = self.run_bfs(verts[portA])
+	var bfs_result = Rule.run_bfs(verts[portA])
 	
 	return not bfs_result.has(verts[portB])
 

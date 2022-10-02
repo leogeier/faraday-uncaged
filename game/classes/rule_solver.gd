@@ -49,6 +49,7 @@ func generate_ruleset(devices, hubs, cables, difficulty, dont_connect_limit):
 			possible_rules.push_back(connected_rule)
 			possible_rules.push_back(not_connected_rule)
 	
+	randomize()
 	possible_connect_rules.shuffle()
 	possible_rules.shuffle()
 	

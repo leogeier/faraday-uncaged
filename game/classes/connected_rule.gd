@@ -11,7 +11,7 @@ func _init(portA, portB):
 
 
 func check():
-	var bfs_result = self.run_bfs(portA)
+	var bfs_result = Rule.run_bfs(portA)
 	
 	return bfs_result.has(self.portB)
 	
@@ -19,7 +19,7 @@ func get_penalty():
 	return 1
 
 func check_on_verts(verts):
-	var bfs_result = self.run_bfs(verts[portA])
+	var bfs_result = Rule.run_bfs(verts[portA])
 	
 	return bfs_result.has(verts[portB])
 

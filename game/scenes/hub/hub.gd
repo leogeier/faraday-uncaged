@@ -5,11 +5,35 @@ export(String) var display_name = "Unnamed hub"
 var is_dragging = false
 var desired_position
 
-func get_port_count():
-	return $Ports.get_child_count()
+func get_edges():
+	var edges = []
+	for port in $Ports.get_children():
+		if port.current_plug != null:
+			edges.push_back(port.current_plug.cable)
+	return edges
+
+# code dup with device
+func get_neighbors():
+	var neighbors = []
+	for edge in get_edges():
+		var other_vertex = edge.get_other_vertex(self)
+		if other_vertex != null:
+			neighbors.append(other_vertex)
+	return dedup(neighbors)
+
+func dedup(arr):
+	arr.sort()
+	var new_arr = [arr[0]]
+	for i in range(1, arr.size()):
+		if new_arr.back() != arr[i]:
+			new_arr.push_back(arr[i])
+	return new_arr
 
 func get_display_name():
 	return display_name
+
+func get_port_count():
+	return $Ports.get_child_count()
 
 func get_connected_plugs():
 	var plugs = []
@@ -17,6 +41,10 @@ func get_connected_plugs():
 		if port.current_plug != null:
 			plugs.push_back(port.current_plug)
 	return plugs
+
+func _ready():
+	for port in $Ports.get_children():
+		port.vertex = self
 
 func _input(event):
 	if event is InputEventMouseMotion:

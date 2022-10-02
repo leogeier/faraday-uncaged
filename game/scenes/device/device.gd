@@ -5,7 +5,8 @@ export(String) var display_name = "Unnamed device"
 var edges = []
 
 func get_edges():
-	return edges
+	if $Port.current_plug != null:
+		return [$Port.current_plug.cable]
 
 func get_neighbors():
 	var neighbors = []
@@ -16,3 +17,5 @@ func get_neighbors():
 func get_display_name():
 	return display_name
 	
+func _ready():
+	$Port.vertex = self

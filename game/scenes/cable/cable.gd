@@ -4,9 +4,6 @@ export(int) var segment_length = 5
 export(int) var cable_length = 50
 export(bool) var debug_viz = false setget set_debug_viz
 
-var vertex_a
-var vertex_b
-
 var last_segment
 #var cable_width = 2
 export(float) var current_cable_width = 3
@@ -18,10 +15,10 @@ func set_debug_viz(value):
 	$PlugB.debug_viz = debug_viz
 
 func get_other_vertex(vertex):
-	if vertex == vertex_a:
-		return vertex_b
-	if vertex == vertex_b:
-		return vertex_a
+	if vertex == $PlugA.vertex:
+		return $PlugB.vertex
+	if vertex == $PlugB.vertex:
+		return $PlugA.vertex
 	assert(false, "given vertex is not connected to edge")
 
 func on_plug_reached_max_distance():
@@ -56,6 +53,8 @@ func _ready():
 	$PlugB.counterpart = $PlugA
 	$PlugA.cable_length = cable_length
 	$PlugB.cable_length = cable_length
+	$PlugA.cable = self
+	$PlugB.cable = self
 	
 	at_cable_length = is_at_cable_length()
 

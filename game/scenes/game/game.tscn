@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/game/game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/rule_display/rule_display.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://scenes/fuse_box/fuse_box.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/tool_box/tool_box.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/effects/lightning_canvas.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/effects/camera_shake.gd" type="Script" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 400, 50 )
@@ -249,5 +250,10 @@ color = Color( 0, 0, 0, 1 )
 material = SubResource( 6 )
 margin_right = 400.0
 margin_bottom = 200.0
+
+[node name="Camera" type="Camera2D" parent="."]
+offset = Vector2( 200, 100 )
+current = true
+script = ExtResource( 8 )
 
 [connection signal="timeout" from="SurgeTimer" to="." method="on_power_surge"]

@@ -7,6 +7,7 @@ var rule_solver
 var started = false
 var rounds = 0
 var difficulty = 1
+var health = 2
 
 signal game_lost
 
@@ -46,11 +47,19 @@ func start_cycle():
 
 func die():
 	emit_signal("game_lost", self)
+	
+func damage():
+	health -= 1
+	$FuseBox.set_state(health)
+	$Camera.shake(0.5)
 
 func on_power_surge():
 	print("surge event!")
 	if not check_rules(current_rules):
-		die()
+		if health > 0:
+			damage()
+		else:
+			die()
 		
 	$Viewport/LightningCanvas.draw_lightning(get_electrified_cables(), 1.0)
 	

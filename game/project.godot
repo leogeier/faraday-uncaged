@@ -14,6 +14,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://classes/connected_rule.gd"
 }, {
+"base": "Node2D",
+"class": "Game",
+"language": "GDScript",
+"path": "res://scenes/game/game.gd"
+}, {
+"base": "Area2D",
+"class": "Hub",
+"language": "GDScript",
+"path": "res://scenes/hub/hub.gd"
+}, {
 "base": "Rule",
 "class": "NotConnectedRule",
 "language": "GDScript",
@@ -36,6 +46,8 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ConnectedRule": "",
+"Game": "",
+"Hub": "",
 "NotConnectedRule": "",
 "Rule": "",
 "RuleSolver": "",

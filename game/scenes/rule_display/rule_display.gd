@@ -10,5 +10,4 @@ func update_rules(new_rules):
 		$RuleVizContainer.add_child(viz)
 
 func set_progress(value):
-	print(value)
 	$ProgressBar.value = value * 100

@@ -22,7 +22,7 @@ func find_vert(node, verts):
 	assert(false)
 
 
-static func run_bfs(from):
+static func run_bfs(from, previous_edge_dict = null):
 	var discovered = [from]
 	var processed = []
 	
@@ -38,5 +38,7 @@ static func run_bfs(from):
 		for elem in current_neighbors:
 			if (not processed.has(elem)):
 				discovered.append(elem)
+				if previous_edge_dict != null:
+					previous_edge_dict
 				
 	return processed

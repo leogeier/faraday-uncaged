@@ -28,18 +28,24 @@ _global_script_classes=[ {
 "class": "RuleSolver",
 "language": "GDScript",
 "path": "res://classes/rule_solver.gd"
+}, {
+"base": "Control",
+"class": "RuleViz",
+"language": "GDScript",
+"path": "res://scenes/rule_display/rule_viz.gd"
 } ]
 _global_script_class_icons={
 "ConnectedRule": "",
 "NotConnectedRule": "",
 "Rule": "",
-"RuleSolver": ""
+"RuleSolver": "",
+"RuleViz": ""
 }
 
 [application]
 
 config/name="ld51"
-run/main_scene="res://scenes/leo_test_scene.tscn"
+run/main_scene="res://scenes/game/game.tscn"
 config/icon="res://icon.png"
 
 [autoload]

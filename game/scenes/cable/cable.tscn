@@ -37,7 +37,7 @@ tracks/0/keys = {
 "values": [ 3.0 ]
 }
 
-[node name="Cable" type="Node2D"]
+[node name="Cable" type="Node2D" groups=["cable"]]
 script = ExtResource( 3 )
 current_cable_width = 2.5
 

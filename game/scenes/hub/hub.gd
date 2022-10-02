@@ -71,13 +71,13 @@ func _input(event):
 		is_dragging = false
 #		emit_signal("stopped_dragging")
 		for plug in get_connected_plugs():
-				plug.cable_radius_viz_enabled = false
+			plug.counterpart.cable_radius_viz_enabled = false
 
 func start_dragging():
 	is_dragging = true
 	desired_position = global_position
 #		emit_signal("started_dragging")
 	for plug in get_connected_plugs():
-			plug.counterpart.cable_radius_viz_enabled = true
+		plug.counterpart.cable_radius_viz_enabled = true
 				
 

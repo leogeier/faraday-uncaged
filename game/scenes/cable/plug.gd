@@ -28,7 +28,7 @@ func set_counterpart(value):
 
 func set_cable_radius_viz_enabled(value):
 	cable_radius_viz_enabled = value
-	update()
+#	update()
 
 func get_drag_priority():
 	return 10 if is_plugging_in() else 20
@@ -93,9 +93,11 @@ func start_dragging():
 		current_port = null
 	if !counterpart.is_plugging_in():
 		counterpart.set_is_frozen(false)
+		set_cable_radius_viz_enabled(true)
 	emit_signal("started_dragging")
 
 func stop_dragging():
+	set_cable_radius_viz_enabled(false)
 	is_dragging = false
 	if dragged_over_port != null:
 		current_port = dragged_over_port 
@@ -108,26 +110,22 @@ func stop_dragging():
 	emit_signal("stopped_dragging")
 
 func _draw():
-	if debug_viz and cable_radius_viz_enabled and is_plugging_in():
+	if debug_viz and cable_radius_viz_enabled and (is_plugging_in() or is_dragging):
 		draw_arc(Vector2.ZERO, cable_length, 0, TAU, 30, Color.red)
 
 func _input(event):
-	if event is InputEventMouseMotion:
-		if is_dragging:
-			desired_position += event.relative
-			if counterpart.is_plugging_in() and desired_position.distance_to(counterpart.position) > cable_length:
-				position = counterpart.position + counterpart.position.direction_to(desired_position) * cable_length
-#				signal_reached_max_distance()
-			else:
-				position = desired_position
-#				if position.distance_to(counterpart.position) < cable_length * 0.9:
-#					enable_signal_reached_max_distance()
-			position = position.floor()
+	if is_dragging and event is InputEventMouseMotion:
+		desired_position += event.relative
+		if counterpart.is_plugging_in() and desired_position.distance_to(counterpart.position) > cable_length:
+			position = counterpart.position + counterpart.position.direction_to(desired_position) * cable_length
+		else:
+			position = desired_position
+		position = position.floor()
 	
 	if event is InputEventMouseButton and !event.pressed and is_dragging:
 		stop_dragging()
 
-func _process(_delta):
+func _physics_process(_delta):
 	if is_dragging:
 		var closest_port
 		var closest_area_distance = INF
@@ -148,3 +146,13 @@ func _process(_delta):
 		dragged_over_port = closest_port
 		if dragged_over_port != null:
 			dragged_over_port.hover_with_plug(self)
+	
+	var area_scale = 1 + min(3, linear_velocity.length() * 0.01)
+	$Area2D/CollisionShape2D2.scale = Vector2.ONE * area_scale
+
+func _process(_delta):
+	update()
+
+func _integrate_forces(state):
+	if (counterpart.is_dragging or counterpart.is_plugging_in()) and counterpart.position.distance_to(position) > cable_length:
+		position = counterpart.position + counterpart.position.direction_to(position) * cable_length

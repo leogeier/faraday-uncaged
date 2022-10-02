@@ -15,6 +15,7 @@ script = ExtResource( 6 )
 
 [node name="Device" parent="." instance=ExtResource( 4 )]
 position = Vector2( 148, 162 )
+color = Color( 1, 0, 0, 1 )
 
 [node name="Device2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 262, 149 )

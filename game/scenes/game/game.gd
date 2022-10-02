@@ -1,4 +1,4 @@
-															   extends Node2D
+extends Node2D
 
 
 var current_rules = []
@@ -18,12 +18,9 @@ func _ready():
 	$ToolBox.add_hub_3()
 	create_new_rules()
 
-
 func set_rules(rules):
 	current_rules = rules
 	$RuleDisplay.update_rules(rules)
-	
-
 
 func check_rules(rules):
 	for rule in rules:
@@ -62,3 +59,4 @@ func create_new_rules():
 func _process(delta):
 	if not started and check_rules(current_rules):
 		start_cycle()
+	$RuleDisplay.set_progress(1 - $SurgeTimer.time_left / $SurgeTimer.wait_time)

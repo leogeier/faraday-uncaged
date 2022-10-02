@@ -12,6 +12,7 @@ var dragged_over_port
 var current_port
 var can_signal_reached_max_distance = true
 
+var drag_priority setget , get_drag_priority
 var vertex setget , get_vertex
 
 signal started_dragging
@@ -29,6 +30,9 @@ func set_cable_radius_viz_enabled(value):
 	cable_radius_viz_enabled = value
 	update()
 
+func get_drag_priority():
+	return 20 if current_port == null else 10
+
 func get_vertex():
 	if current_port == null:
 		return null
@@ -39,6 +43,9 @@ func get_start_position():
 
 func get_end_position():
 	return get_start_position()
+
+func distance_to(point):
+	return position.distance_to(point)
 
 func counterpart_started_dragging():
 	set_cable_radius_viz_enabled(true)
@@ -94,14 +101,13 @@ func _input(event):
 			current_port = dragged_over_port
 			current_port.insert_plug(self)
 
-func _input_event(_viewport, event, _shape_idx):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
-		is_dragging = true
-		desired_position = position
-		emit_signal("started_dragging")
-		if current_port != null:
-			current_port.remove_plug(self)
-			current_port = null
+func start_dragging():
+	is_dragging = true
+	desired_position = position
+	emit_signal("started_dragging")
+	if current_port != null:
+		current_port.remove_plug(self)
+		current_port = null
 
 func _process(_delta):
 	if is_dragging:

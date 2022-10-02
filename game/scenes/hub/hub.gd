@@ -4,6 +4,7 @@ export(String) var display_name = "Unnamed hub"
 
 var is_dragging = false
 var desired_position
+var drag_priority = -1
 
 func get_edges():
 	var edges = []
@@ -42,7 +43,11 @@ func get_connected_plugs():
 			plugs.push_back(port.current_plug)
 	return plugs
 
+func distance_to(point):
+	return INF
+
 func _ready():
+	add_to_group("draggable")
 	for port in $Ports.get_children():
 		port.vertex = self
 
@@ -68,12 +73,11 @@ func _input(event):
 		for plug in get_connected_plugs():
 				plug.cable_radius_viz_enabled = false
 
-func _input_event(_viewport, event, _shape_idx):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
-		is_dragging = true
-		desired_position = global_position
+func start_dragging():
+	is_dragging = true
+	desired_position = global_position
 #		emit_signal("started_dragging")
-		for plug in get_connected_plugs():
-				plug.counterpart.cable_radius_viz_enabled = true
+	for plug in get_connected_plugs():
+			plug.counterpart.cable_radius_viz_enabled = true
 				
 

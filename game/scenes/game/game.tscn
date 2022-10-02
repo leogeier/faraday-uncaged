@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/game/game.gd" type="Script" id=1]
+[ext_resource path="res://scenes/rule_display/rule_display.tscn" type="PackedScene" id=2]
+[ext_resource path="res://music/power_surge_loop.wav" type="AudioStream" id=3]
+[ext_resource path="res://music/power_surge.wav" type="AudioStream" id=4]
+[ext_resource path="res://scenes/fuse_box/fuse_box.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/tool_box/tool_box.tscn" type="PackedScene" id=6]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="RuleDisplay" parent="." instance=ExtResource( 2 )]
+
+[node name="MusicLoop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+autoplay = true
+
+[node name="MusicIngame" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="SurgeTimer" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="FuseBox" parent="." instance=ExtResource( 5 )]
+position = Vector2( 100, 0 )
+
+[node name="ToolBox" parent="." instance=ExtResource( 6 )]
+position = Vector2( 300, 0 )
+
+[connection signal="timeout" from="SurgeTimer" to="." method="on_power_surge"]

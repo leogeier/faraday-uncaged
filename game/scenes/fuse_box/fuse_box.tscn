@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/fuse_box/fuse_box.gd" type="Script" id=1]
+[ext_resource path="res://scenes/device/device.tscn" type="PackedScene" id=2]
+
+[node name="FuseBox" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Device" parent="." instance=ExtResource( 2 )]
+position = Vector2( 51, 64 )
+display_name = "A"
+
+[node name="Device2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 50, 122 )
+display_name = "B"
+
+[node name="Device3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 148, 31 )
+display_name = "C"
+
+[node name="Device4" parent="." instance=ExtResource( 2 )]
+position = Vector2( 148, 97 )
+display_name = "D"
+
+[node name="Device5" parent="." instance=ExtResource( 2 )]
+position = Vector2( 148, 162 )
+display_name = "E"

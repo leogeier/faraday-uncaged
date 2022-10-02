@@ -39,8 +39,11 @@ func plug_distance():
 func is_at_cable_length():
 	return plug_distance() >= cable_length - 1
 
-func _ready():
+func regenerate():
 	assert(cable_length % segment_length == 0, "cable_length is not a multiple of segment_length")
+	for segment in segments:
+		segment.queue_free()
+	
 	var previous_segment = $PlugA
 	for _i in range(cable_length / segment_length):
 		var segment = preload("res://scenes/cable/cable_segment.tscn").instance()
@@ -64,6 +67,9 @@ func _ready():
 	set_is_frozen(is_frozen)
 	
 	at_cable_length = is_at_cable_length()
+
+func _ready():
+	regenerate()
 
 var at_cable_length
 

@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name Hub
+
 export(String) var display_name = "Unnamed hub"
 
 var is_dragging = false
@@ -22,7 +24,7 @@ func get_neighbors():
 			neighbors.append(other_vertex)
 	return dedup(neighbors)
 
-func dedup(arr):
+static func dedup(arr):
 	arr.sort()
 	var new_arr = [arr[0]]
 	for i in range(1, arr.size()):

@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/main_menu/main_menu.gd" type="Script" id=1]
-[ext_resource path="res://font/Our-Arcade-Games.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://font/Metropolis-Light.otf" type="DynamicFontData" id=2]
 
 [sub_resource type="DynamicFont" id=1]
-size = 40
+size = 37
 font_data = ExtResource( 2 )
 
 [node name="MainMenu" type="Node2D"]
@@ -38,10 +38,11 @@ margin_bottom = 108.0
 text = "Quit"
 
 [node name="Label2" type="Label" parent="."]
-margin_left = 166.0
-margin_top = 60.0
-margin_right = 376.0
-margin_bottom = 158.0
+margin_left = 228.0
+margin_top = -5.0
+margin_right = 438.0
+margin_bottom = 93.0
+rect_scale = Vector2( 0.819, 2.6 )
 custom_fonts/font = SubResource( 1 )
 text = "FARADAY
 UNCAGED"

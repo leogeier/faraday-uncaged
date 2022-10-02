@@ -1,5 +1,6 @@
 extends Node2D
 
+class_name Game
 
 var current_rules = []
 var rule_solver
@@ -67,25 +68,17 @@ func on_power_surge():
 	create_new_rules()
 	
 func get_electrified_cables():
-	var electrified_nodes = []
-	for device in $FuseBox.get_devices():
-		var bfs_result = Rule.run_bfs(device)
-		for node in bfs_result:
-			if not electrified_nodes.has(node):
-				electrified_nodes.push_back(node)
-				
-	print(electrified_nodes)
-	
 	var electrified_cables = []
-	for cable in $ToolBox.get_cables():
-		if (electrified_nodes.has(cable.get_vertex_a())
-			or electrified_nodes.has(cable.get_vertex_b())):
-				electrified_cables.append(cable)
-				
 	
-	print(electrified_cables)
-				
-	return electrified_cables
+	for rule in current_rules:
+		var bfs_result = bfs(rule.portA)
+		if rule.portB in bfs_result.keys():
+			var vertex = rule.portB
+			while bfs_result[vertex] != null:
+				electrified_cables.push_back(bfs_result[vertex])
+				vertex = bfs_result[vertex].get_other_vertex(vertex)
+	
+	return Hub.dedup(electrified_cables)
 		
 	
 func create_new_rules():
@@ -96,6 +89,22 @@ func create_new_rules():
 			break
 		
 	set_rules(new_rules)
+
+static func bfs(from):
+	var previous_edge_dict = {from: null}
+	var border = [from]
+	
+	while !border.empty():
+		var new_border = []
+		for vertex in border:
+			for edge in vertex.get_edges():
+				var other_vertex = edge.get_other_vertex(vertex)
+				if other_vertex != null and !(other_vertex in previous_edge_dict.keys()):
+					previous_edge_dict[other_vertex] = edge
+					new_border.push_back(other_vertex)
+		border = new_border
+	
+	return previous_edge_dict
 
 func _process(delta):
 	if not started and check_rules(current_rules):

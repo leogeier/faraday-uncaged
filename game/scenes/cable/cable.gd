@@ -4,6 +4,7 @@ export(int) var segment_length = 5
 export(int) var cable_length = 50
 export(bool) var debug_viz = false setget set_debug_viz
 export(bool) var is_frozen = false setget set_is_frozen
+export(Color, RGB) var color = Color.black setget set_color
 
 var last_segment
 #var cable_width = 2
@@ -20,6 +21,11 @@ func set_is_frozen(value):
 	is_frozen = value
 	$PlugA.set_is_frozen(is_frozen)
 	$PlugB.set_is_frozen(is_frozen)
+
+func set_color(value):
+	color = value
+	for segment in segments:
+		segment.color = color
 	
 func freeze():
 	set_is_frozen(true)
@@ -65,7 +71,9 @@ func regenerate():
 		segment.position = previous_segment.get_end_position()
 		segment.set_other_joined_body(previous_segment)
 		segment.cable_width = current_cable_width
+		segment.color = color
 		add_child(segment)
+		move_child(segment, 0)
 		segments.push_back(segment)
 		previous_segment = segment
 	last_segment = previous_segment
@@ -111,4 +119,4 @@ func get_point_sequence():
 	return point_sequence	
 
 func _draw():
-	draw_line($PlugB.position, last_segment.get_end_position(), Color.black, current_cable_width)
+	draw_line($PlugB.position, last_segment.get_end_position(), color, current_cable_width)

@@ -10,6 +10,7 @@ func add_cable_short():
 	cable.regenerate()
 	cable.freeze()
 	cable.position.y = cable_pos
+	cable.color = Color("533")
 	cable_pos += 20
 	$Cables.add_child(cable)
 	

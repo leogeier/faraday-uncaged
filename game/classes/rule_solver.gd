@@ -103,19 +103,19 @@ func solve(devices, hubs, cables, rules):
 	var valid_configs = get_valid_configs(verts, cables.size(), rules)
 	
 	for config in valid_configs:
-		if solve_spacially(config, cables):
+		if solve_spatially(config, cables):
 			return true
 	
 	return false
 	
-func solve_spacially(config, cables):
-	var remaining_connections = config.duplicate()
+func solve_spatially(config, cables):
+	var remaining_connections = config[0].duplicate()
 	var remaining_cables = cables.duplicate()
 	
 	if not filter_direct_connections(remaining_connections, remaining_cables):
 		return false
 		
-	return true
+	return check_hub_spacing(config[1], remaining_cables, remaining_connections)
 	
 class CableSorter:
 	func compare(q1, q2):
@@ -149,6 +149,71 @@ func filter_direct_connections(connections, cables):
 	return true
 	
 	
+class ConnectionsSorter:
+	var positions
+	
+	func _init(positions):
+		self.positions = positions
+		
+	func get_length(connection):
+		var p_a = positions[connection.a.associated_node]
+		var p_b = positions[connection.b.associated_node]
+		
+		return p_a.distance_to(p_b)
+		
+	func compare(q1, q2):
+		return get_length(q1) < get_length(q2)
+		
+func is_hub(vert):
+	return vert.associated_node.is_in_group("hub")
+	
+func check_hub_spacing(verts, remaining_cables, remaining_connections):
+	# calculate initial hub positions
+	var positions = {}
+	for vert in verts:
+		if is_hub(vert):
+			var pos = Vector2(0, 0)
+			for connection in vert.connections:
+				pos += connection.associated_node.global_position
+				
+			pos /= vert.connections.size()
+			positions[vert.associated_node] = pos
+		else:
+			positions[vert.associated_node] = vert.associated_node.global_position
+			
+	# create working copies to be mutated
+	var cables = remaining_cables.duplicate()
+	var connections = remaining_connections.duplicate()
+	var con_sort = ConnectionsSorter.new(positions)
+	
+	cables.sort_custom(CableSorter.new(), "compare")
+	
+	for i in range(10):
+		connections.sort_custom(con_sort, "compare")
+		var solved = true
+		
+		for j in range(connections.size()):
+			var cable = cables[j]
+			var conn = connections[j]
+			
+			if cable.cable_length < con_sort.get_length(conn):
+				solved = false
+				#try pull cable to allowed length direction
+				var amount = cable.cable_length - con_sort.get_length(conn)
+				var direction = (positions[conn.b.associated_node] - positions[conn.a.associated_node]).normalized()
+				
+				if (is_hub(conn.a)):
+					positions[conn.a.associated_node] += amount * direction
+					
+				if (is_hub(conn.b)):
+					positions[conn.b.associated_node] -= amount * direction
+		
+		if solved:
+			return true
+	
+	return false
+
+
 class BeamSearchQuery:
 	var verts
 	var current_connections
@@ -210,7 +275,7 @@ func get_valid_configs(verts, remaining_connections, rules):
 					var score = score_rules(new_verts, rules)
 					
 					if score == 0:
-						valid_configs.push_back(new_current_connections)
+						valid_configs.push_back([new_current_connections, new_verts])
 					else:
 						var p1 = two_connector_penalty(new_current_connections)
 						var r1 = good_hub_reward(rules, new_verts)

@@ -35,5 +35,8 @@ margin_right = 111.0
 margin_bottom = 125.0
 text = "Quit"
 
+[node name="Title" parent="." instance=ExtResource( 2 )]
+position = Vector2( 164, 44 )
+
 [connection signal="pressed" from="ButtonStart" to="." method="_on_start"]
 [connection signal="pressed" from="ButtonQuit" to="." method="_on_quit"]

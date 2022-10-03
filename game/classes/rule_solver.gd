@@ -284,7 +284,7 @@ func get_valid_configs(verts, remaining_connections, rules):
 						
 					states_explored += 1
 	
-		print(states_explored)
+#		print(states_explored)
 					
 	return valid_configs
 

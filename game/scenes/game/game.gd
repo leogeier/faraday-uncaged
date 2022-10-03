@@ -14,6 +14,7 @@ var difficulty_reduction = 0
 signal game_lost
 
 func _ready():
+	Score.reset_score()
 	rule_solver = RuleSolver.new()
 	$ToolBox.add_cable_short()
 	$ToolBox.add_cable_long()
@@ -28,6 +29,9 @@ func _ready():
 #	$ColorRect.material.set_shader_param("lightning_buffer", vt)
 	
 	create_new_rules()
+
+func get_adjusted_difficulty():
+	return max(1, difficulty - difficulty_reduction)
 
 func set_rules(rules):
 	current_rules = rules
@@ -58,7 +62,10 @@ func damage():
 
 func on_power_surge():
 	print("surge event!")
-	if not check_rules(current_rules):
+	if check_rules(current_rules):
+		Score.increase_score(get_adjusted_difficulty())
+		print("new score ", Score.score)
+	else:
 		if health > 0:
 			damage()
 			difficulty_reduction += 1
@@ -99,7 +106,7 @@ func get_electrified_cables():
 func create_new_rules():
 	var new_rules = current_rules
 	for i in range(5):
-		var adjusted_difficulty = max(1, difficulty - difficulty_reduction)
+		var adjusted_difficulty = get_adjusted_difficulty()
 		new_rules = rule_solver.generate_ruleset($FuseBox.get_devices(), $ToolBox.get_hubs(), $ToolBox.get_cables(), adjusted_difficulty, ceil(adjusted_difficulty * 0.5))
 		if not check_rules(new_rules):
 			break

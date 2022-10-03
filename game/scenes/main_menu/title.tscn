@@ -1,33 +1,15 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://scenes/game/game.gd" type="Script" id=1]
-[ext_resource path="res://scenes/rule_display/rule_display.tscn" type="PackedScene" id=2]
-[ext_resource path="res://music/power_surge_loop.wav" type="AudioStream" id=3]
-[ext_resource path="res://music/power_surge.wav" type="AudioStream" id=4]
-[ext_resource path="res://scenes/fuse_box/fuse_box.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/tool_box/tool_box.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/effects/lightning_canvas.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/effects/camera_shake.gd" type="Script" id=8]
-[ext_resource path="res://scenes/alarm_light/alarm_light.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/lightning_effect/lightning_effect.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/main_menu/TitleSprite.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/lightning_effect/lightning_viewport.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/lightning_effect/lightning_effect.tscn" type="PackedScene" id=3]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 400, 50 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 209, 29.5 )
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 37.5, 142.5 )
-
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 38, 141 )
-
-[sub_resource type="Shader" id=5]
+[sub_resource type="Shader" id=2]
 resource_local_to_scene = true
 code = "shader_type canvas_item;
 
 uniform sampler2D lightning_buffer;
+uniform float offset_strength = 0.02;
 
 //	see https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
 //
@@ -182,82 +164,29 @@ void fragment() {
 	
 	for (int i = 0; i < 3; i++) {
 		float aspect = SCREEN_PIXEL_SIZE.x / SCREEN_PIXEL_SIZE.y;
-		vec2 noise = vec_noise_3d(vec4(vec2(30) * SCREEN_UV * vec2(1.0, aspect), TIME * 20.0, float(i)));
-		COLOR += lightning_color * texture(lightning_buffer, SCREEN_UV + 0.02 * noise);
+		vec2 noise = vec_noise_3d(vec4(vec2(30) * UV * vec2(1.0, aspect), TIME * 20.0, float(i)));
+		COLOR += lightning_color * texture(lightning_buffer, UV + offset_strength * noise);
 	}
 }"
 
-[sub_resource type="ViewportTexture" id=6]
-viewport_path = NodePath("Viewport")
+[sub_resource type="ViewportTexture" id=4]
+viewport_path = NodePath("LightningViewport")
 
-[sub_resource type="ShaderMaterial" id=7]
+[sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
-shader = SubResource( 5 )
-shader_param/lightning_buffer = SubResource( 6 )
+shader = SubResource( 2 )
+shader_param/offset_strength = 0.012
+shader_param/lightning_buffer = SubResource( 4 )
 
-[node name="Game" type="Node2D"]
-script = ExtResource( 1 )
+[node name="Title" type="Node2D"]
 
-[node name="RuleDisplay" parent="." instance=ExtResource( 2 )]
+[node name="LightningViewport" parent="." instance=ExtResource( 2 )]
+size = Vector2( 208, 102 )
+handle_input_locally = false
 
-[node name="MusicLoop" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 3 )
-autoplay = true
+[node name="Sprite" parent="LightningViewport" instance=ExtResource( 1 )]
 
-[node name="MusicIngame" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
-
-[node name="SurgeTimer" type="Timer" parent="."]
-wait_time = 10.0
-
-[node name="FuseBox" parent="." instance=ExtResource( 5 )]
-position = Vector2( 100, 0 )
-
-[node name="ToolBox" parent="." instance=ExtResource( 6 )]
-position = Vector2( 300, 0 )
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 195, -50 )
-shape = SubResource( 1 )
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 199, 226.5 )
-shape = SubResource( 2 )
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( -38.5, 110.5 )
-shape = SubResource( 3 )
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 438, 118 )
-shape = SubResource( 4 )
-
-[node name="Viewport" type="Viewport" parent="."]
-size = Vector2( 400, 200 )
-transparent_bg = true
-hdr = false
-usage = 0
-render_target_update_mode = 3
-
-[node name="ColorRect2" type="ColorRect" parent="Viewport"]
-margin_right = 400.0
-margin_bottom = 200.0
-color = Color( 0, 0, 0, 1 )
-
-[node name="LightningCanvas" parent="Viewport" instance=ExtResource( 7 )]
-
-[node name="LightningEffect" parent="." instance=ExtResource( 10 )]
-material = SubResource( 7 )
-
-[node name="Camera" type="Camera2D" parent="."]
-offset = Vector2( 200, 100 )
-current = true
-script = ExtResource( 8 )
-
-[node name="AlarmLight" parent="." instance=ExtResource( 9 )]
-modulate = Color( 0.333333, 0.333333, 0.333333, 1 )
-position = Vector2( 391, 9 )
-
-[connection signal="timeout" from="SurgeTimer" to="." method="on_power_surge"]
+[node name="LightningEffect" parent="." instance=ExtResource( 3 )]
+material = SubResource( 3 )
+margin_right = 208.0
+margin_bottom = 102.0

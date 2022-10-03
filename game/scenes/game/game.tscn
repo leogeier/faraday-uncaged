@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://scenes/game/game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/rule_display/rule_display.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://scenes/lightning_effect/lightning_effect.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/game/explosion.wav" type="AudioStream" id=11]
 [ext_resource path="res://sounds/square.wav" type="AudioStream" id=12]
+[ext_resource path="res://scenes/game/tutorial.tres" type="Theme" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 400, 50 )
@@ -269,5 +270,37 @@ volume_db = -5.0
 [node name="Crackle" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )
 volume_db = -1.748
+
+[node name="TutorialText" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="TutorialText"]
+margin_left = 5.0
+margin_top = 35.0
+margin_right = 98.0
+margin_bottom = 117.0
+theme = ExtResource( 13 )
+text = "The devices you have to (dis-)connect are listed here."
+autowrap = true
+
+[node name="Label2" type="Label" parent="TutorialText"]
+margin_left = 313.0
+margin_top = 155.0
+margin_right = 392.0
+margin_bottom = 196.0
+theme = ExtResource( 13 )
+text = "Hubs connect multiple devices farther away."
+align = 2
+autowrap = true
+
+[node name="Label3" type="Label" parent="TutorialText"]
+margin_left = 308.0
+margin_top = 79.0
+margin_right = 401.0
+margin_bottom = 123.0
+theme = ExtResource( 13 )
+text = "Use cables to connect devices."
+autowrap = true
 
 [connection signal="timeout" from="SurgeTimer" to="." method="on_power_surge"]

@@ -259,7 +259,7 @@ script = ExtResource( 8 )
 
 [node name="AlarmLight" parent="." instance=ExtResource( 9 )]
 modulate = Color( 0.333333, 0.333333, 0.333333, 1 )
-position = Vector2( 391, 9 )
+position = Vector2( 389, 12 )
 
 [node name="Explosion" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )

@@ -1,7 +1,7 @@
 extends RigidBody2D
 
 var counterpart setget set_counterpart
-var cable_length
+var cable_length setget , get_cable_length
 var debug_viz
 var cable_radius_viz_enabled = false setget set_cable_radius_viz_enabled
 var cable
@@ -15,6 +15,7 @@ onready var prev_position = position
 
 var drag_priority setget , get_drag_priority
 var vertex setget , get_vertex
+var overextended_radius
 
 onready var trail_shapes = [$Trail1, $Trail2, $Trail3]
 
@@ -23,6 +24,9 @@ signal stopped_dragging
 
 signal reached_max_distance
 signal away_from_max_distance
+
+func get_cable_length():
+	return overextended_radius if is_overextended() else cable_length
 
 func set_counterpart(value):
 	counterpart = value
@@ -75,7 +79,10 @@ func on_area_exited(area):
 		return
 
 func can_connect_to_port(port):
-	return port.can_accept_plug() and counterpart.global_position.distance_to(port.global_position) <= cable_length
+	return port.can_accept_plug()
+
+func is_overextended():
+	return counterpart.global_position.distance_to(global_position) > cable_length + 2
 
 func signal_reached_max_distance():
 	if can_signal_reached_max_distance:
@@ -109,6 +116,9 @@ func stop_dragging():
 		# need to wait a frame because the remote transform doesn't apply at first sometimes otherwise
 		yield(get_tree(), "idle_frame")
 		current_port.insert_plug(self)
+		if is_overextended():
+			overextended_radius = current_port.global_position.distance_to(counterpart.global_position)
+			counterpart.overextended_radius = overextended_radius
 	else:
 		mode = RigidBody2D.MODE_RIGID
 	emit_signal("stopped_dragging")

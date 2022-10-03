@@ -198,18 +198,18 @@ handle_input_locally = false
 offset = Vector2( 150, 50 )
 
 [node name="LabelStart" type="Label" parent="LightningViewport"]
-margin_left = 30.0
-margin_top = 70.0
-margin_right = 84.0
-margin_bottom = 87.0
+margin_left = 50.0
+margin_top = 79.0
+margin_right = 104.0
+margin_bottom = 96.0
 custom_fonts/font = SubResource( 5 )
 text = "START"
 
 [node name="LabelQuit" type="Label" parent="LightningViewport"]
-margin_left = 30.0
-margin_top = 110.0
-margin_right = 84.0
-margin_bottom = 147.0
+margin_left = 57.0
+margin_top = 109.0
+margin_right = 111.0
+margin_bottom = 146.0
 custom_fonts/font = SubResource( 5 )
 text = "QUIT
 "

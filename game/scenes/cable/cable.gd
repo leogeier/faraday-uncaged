@@ -26,7 +26,6 @@ func freeze():
 	
 func unfreeze():
 	set_is_frozen(false)
-	
 
 func get_vertex_a():
 	return $PlugA.vertex
@@ -73,8 +72,6 @@ func regenerate():
 	$PlugB.position = last_segment.get_end_position()
 	$PlugB/PinJoint2D.node_b = last_segment.get_path()
 	
-	$PlugA.counterpart = $PlugB
-	$PlugB.counterpart = $PlugA
 	$PlugA.cable_length = cable_length
 	$PlugB.cable_length = cable_length
 	$PlugA.cable = self
@@ -84,6 +81,8 @@ func regenerate():
 	at_cable_length = is_at_cable_length()
 
 func _ready():
+	$PlugA.counterpart = $PlugB
+	$PlugB.counterpart = $PlugA
 	regenerate()
 
 var at_cable_length

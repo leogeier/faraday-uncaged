@@ -13,7 +13,7 @@ radius = 5.0
 
 [sub_resource type="CircleShape2D" id=4]
 
-[node name="Plug" type="RigidBody2D" groups=["draggable"]]
+[node name="Plug" type="RigidBody2D" groups=["draggable", "plug"]]
 collision_mask = 0
 input_pickable = true
 script = ExtResource( 2 )
@@ -34,6 +34,9 @@ shape = SubResource( 3 )
 
 [node name="Trail3" type="CollisionShape2D" parent="."]
 shape = SubResource( 4 )
+
+[node name="FreezeShape" type="CollisionShape2D" parent="." groups=["freeze_shape"]]
+shape = SubResource( 1 )
 
 [node name="Area2D" type="Area2D" parent="." groups=["plug"]]
 script = ExtResource( 3 )

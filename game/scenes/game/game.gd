@@ -13,6 +13,9 @@ var difficulty_reduction = 0
 
 signal game_lost
 
+static func get_instance(node):
+	return node.get_tree().get_nodes_in_group("game")[0]
+
 func _ready():
 	Score.reset_score()
 	rule_solver = RuleSolver.new()
@@ -29,6 +32,16 @@ func _ready():
 #	$ColorRect.material.set_shader_param("lightning_buffer", vt)
 	
 	create_new_rules()
+
+func spawn_sparks(point):
+	$Viewport/LightningCanvas.spawn_sparks(point)
+	var player = AudioStreamPlayer.new()
+	player.stream = $Crackle.stream
+	player.play()
+	add_child(player)
+	yield(get_tree().create_timer(0.1), "timeout")
+	player.stop()
+	player.queue_free()
 
 func get_adjusted_difficulty():
 	return max(1, difficulty - difficulty_reduction)
@@ -75,7 +88,9 @@ func on_power_surge():
 		else:
 			die()
 		
-	$Viewport/LightningCanvas.draw_lightning(get_electrified_cables(), 1.0)
+	var lightning_duration = 1.0
+	var electrified_cables = get_electrified_cables()
+	$Viewport/LightningCanvas.draw_lightning(get_electrified_cables(), lightning_duration)
 	
 	rounds += 1
 	difficulty = ceil(rounds / 3.0)
@@ -88,6 +103,11 @@ func on_power_surge():
 		$ToolBox.add_cable_long()
 		
 	create_new_rules()
+	
+	if !electrified_cables.empty():
+		$Crackle.play()
+		yield(get_tree().create_timer(lightning_duration), "timeout")
+		$Crackle.stop()
 	
 func get_electrified_cables():
 	var electrified_cables = []

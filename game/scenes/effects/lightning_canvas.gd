@@ -17,8 +17,13 @@ func _draw():
 func draw_lightning(cables, duration):
 	self.cables = cables
 	current_brighntess = 1.0
-	
-	
+
+func spawn_sparks(point):
+	var sparks = preload("res://scenes/effects/sparks.tscn").instance()
+	add_child(sparks)
+	sparks.position = point
+	sparks.spark()
+
 func _process(_delta):
 	if active:
 		update()

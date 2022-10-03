@@ -18,6 +18,7 @@ func insert_plug(plug):
 	$RemoteTransform2D.remote_path = plug.get_path()
 	current_plug = plug
 	$PlugInsert.play()
+	Game.get_instance(self).spawn_sparks(global_position)
 
 func remove_plug(_plug):
 	modulate = Color.green

@@ -13,6 +13,9 @@ var difficulty_reduction = 0
 
 signal game_lost
 
+static func get_instance(node):
+	return node.get_tree().get_nodes_in_group("game")[0]
+
 func _ready():
 	Score.reset_score()
 	rule_solver = RuleSolver.new()
@@ -29,6 +32,9 @@ func _ready():
 #	$ColorRect.material.set_shader_param("lightning_buffer", vt)
 	
 	create_new_rules()
+
+func spawn_sparks(point):
+	$Viewport/LightningCanvas.spawn_sparks(point)
 
 func get_adjusted_difficulty():
 	return max(1, difficulty - difficulty_reduction)

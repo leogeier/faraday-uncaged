@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/power_surge_part0.wav-3c5e59c773b5c61ff705fbe565fb3dcf.sample"
+
+[deps]
+
+source_file="res://music/power_surge_part0.wav"
+dest_files=[ "res://.import/power_surge_part0.wav-3c5e59c773b5c61ff705fbe565fb3dcf.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

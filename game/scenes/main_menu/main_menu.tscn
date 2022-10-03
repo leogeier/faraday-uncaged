@@ -19,22 +19,21 @@ margin_right = 128.0
 margin_bottom = 43.0
 text = "Main Menu"
 
+[node name="Title" parent="." instance=ExtResource( 2 )]
+
 [node name="ButtonStart" type="Button" parent="."]
-margin_left = 29.0
-margin_top = 56.0
-margin_right = 95.0
-margin_bottom = 76.0
+margin_left = 28.0
+margin_top = 64.0
+margin_right = 111.0
+margin_bottom = 84.0
 text = "Start Game"
 
 [node name="ButtonQuit" type="Button" parent="."]
-margin_left = 29.0
-margin_top = 88.0
-margin_right = 112.0
-margin_bottom = 108.0
+margin_left = 28.0
+margin_top = 105.0
+margin_right = 111.0
+margin_bottom = 125.0
 text = "Quit"
-
-[node name="Title" parent="." instance=ExtResource( 2 )]
-position = Vector2( 164, 44 )
 
 [connection signal="pressed" from="ButtonStart" to="." method="_on_start"]
 [connection signal="pressed" from="ButtonQuit" to="." method="_on_quit"]

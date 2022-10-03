@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/fuse_box/fuse_box.gd" type="Script" id=1]
 [ext_resource path="res://scenes/device/device.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/fuse_box/fusebox_background.png" type="Texture" id=3]
 [ext_resource path="res://scenes/fuse_box/fusebox_background_cracks_2.png" type="Texture" id=4]
 [ext_resource path="res://scenes/fuse_box/fusebox_background_cracks_1.png" type="Texture" id=5]
+[ext_resource path="res://scenes/score_display/score_display.tscn" type="PackedScene" id=6]
 
 [node name="FuseBox" type="Node2D"]
 script = ExtResource( 1 )
@@ -16,6 +17,13 @@ state_0_sprite = ExtResource( 4 )
 modulate = Color( 0.513726, 0.584314, 0.584314, 1 )
 position = Vector2( 100, 100 )
 texture = ExtResource( 3 )
+
+[node name="ScoreDisplay" parent="." instance=ExtResource( 6 )]
+modulate = Color( 0.435294, 0.498039, 0.498039, 1 )
+margin_left = 12.0
+margin_top = 173.0
+margin_right = 140.0
+margin_bottom = 185.0
 
 [node name="Device" parent="." instance=ExtResource( 2 )]
 position = Vector2( 51, 64 )

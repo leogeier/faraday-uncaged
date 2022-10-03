@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/cable/plug.png" type="Texture" id=2]
 
 [node name="RuleViz" type="Control"]
-margin_right = 92.0
+margin_right = 88.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 88, 28 )
 script = ExtResource( 1 )
@@ -12,13 +12,23 @@ script = ExtResource( 1 )
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 92.0
 margin_bottom = 26.0
-color = Color( 0.2581, 0.29, 0.29, 1 )
+color = Color( 0.258824, 0.290196, 0.290196, 1 )
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 margin_top = 26.0
 margin_right = 92.0
 margin_bottom = 28.0
 color = Color( 0.223529, 0.223529, 0.223529, 1 )
+
+[node name="Left2" type="TextureRect" parent="."]
+visible = false
+modulate = Color( 0, 0, 0, 0.415686 )
+margin_left = 8.0
+margin_top = 2.0
+margin_right = 28.0
+margin_bottom = 22.0
+rect_scale = Vector2( 1.1, 1.1 )
+texture = ExtResource( 2 )
 
 [node name="Left" type="TextureRect" parent="."]
 margin_left = 9.0
@@ -32,6 +42,16 @@ margin_left = 34.0
 margin_top = 3.0
 margin_right = 54.0
 margin_bottom = 23.0
+
+[node name="Left3" type="TextureRect" parent="."]
+visible = false
+modulate = Color( 0, 0, 0, 0.415686 )
+margin_left = 58.0
+margin_top = 2.0
+margin_right = 78.0
+margin_bottom = 22.0
+rect_scale = Vector2( 1.1, 1.1 )
+texture = ExtResource( 2 )
 
 [node name="Right" type="TextureRect" parent="."]
 margin_left = 59.0

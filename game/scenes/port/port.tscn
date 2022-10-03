@@ -11,7 +11,7 @@ radius = 8.0
 [sub_resource type="AudioStreamRandomPitch" id=2]
 audio_stream = ExtResource( 4 )
 
-[node name="Port" type="Node2D"]
+[node name="Port" type="Node2D" groups=["port"]]
 modulate = Color( 0.768627, 0.768627, 0.768627, 1 )
 script = ExtResource( 2 )
 normal_col = Color( 0.768627, 0.768627, 0.768627, 1 )

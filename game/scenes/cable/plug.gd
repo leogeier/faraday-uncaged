@@ -110,7 +110,7 @@ func start_dragging():
 func stop_dragging():
 	set_cable_radius_viz_enabled(false)
 	is_dragging = false
-	if dragged_over_port != null:
+	if dragged_over_port != null and dragged_over_port.may_connect:
 		current_port = dragged_over_port 
 		mode = RigidBody2D.MODE_STATIC
 		# need to wait a frame because the remote transform doesn't apply at first sometimes otherwise

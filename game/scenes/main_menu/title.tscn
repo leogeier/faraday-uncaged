@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/main_menu/TitleSprite.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/lightning_effect/lightning_viewport.tscn" type="PackedScene" id=2]
@@ -187,7 +187,7 @@ shader_param/lightning_buffer = SubResource( 4 )
 
 [node name="Blur" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0.533333 )
-position = Vector2( 101, 49 )
+position = Vector2( 253, 98 )
 scale = Vector2( 0.248907, 0.248907 )
 texture = ExtResource( 4 )
 
@@ -216,3 +216,4 @@ text = "QUIT
 
 [node name="LightningEffect" parent="." instance=ExtResource( 3 )]
 material = SubResource( 3 )
+mouse_filter = 2

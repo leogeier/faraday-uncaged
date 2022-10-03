@@ -1,11 +1,10 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scenes/death_screen/death_screen.gd" type="Script" id=1]
 [ext_resource path="res://scenes/death_screen/skeleton.png" type="Texture" id=2]
 [ext_resource path="res://scenes/lightning_effect/lightning_viewport.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/lightning_effect/lightning_effect.tscn" type="PackedScene" id=4]
 [ext_resource path="res://font/Metropolis-Light.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://sounds/square.wav" type="AudioStream" id=6]
 [ext_resource path="res://scenes/death_screen/button_back.png" type="Texture" id=7]
 
 [sub_resource type="StyleBoxTexture" id=6]
@@ -259,10 +258,5 @@ modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 200, 120 )
 scale = Vector2( 0.07, 0.07 )
 texture = ExtResource( 2 )
-
-[node name="Zap" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 6 )
-volume_db = -9.448
-autoplay = true
 
 [connection signal="pressed" from="Button" to="." method="_on_accept"]

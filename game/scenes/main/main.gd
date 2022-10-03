@@ -18,7 +18,7 @@ func start_game():
 	game_instance.connect("game_lost", self, "on_game_lost")
 	add_child(game_instance)
 	
-	
+
 func open_death_screen():
 	$Zap.playing = true
 	var death_screen = preload("res://scenes/death_screen/death_screen.tscn").instance()

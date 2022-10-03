@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/main_menu/TitleSprite.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/lightning_effect/lightning_viewport.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/lightning_effect/lightning_effect.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/main_menu/blur_title.png" type="Texture" id=4]
 
 [sub_resource type="Shader" id=2]
 resource_local_to_scene = true
@@ -179,6 +180,12 @@ shader_param/offset_strength = 0.012
 shader_param/lightning_buffer = SubResource( 4 )
 
 [node name="Title" type="Node2D"]
+
+[node name="Blur" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.533333 )
+position = Vector2( 101, 49 )
+scale = Vector2( 0.248907, 0.248907 )
+texture = ExtResource( 4 )
 
 [node name="LightningViewport" parent="." instance=ExtResource( 2 )]
 size = Vector2( 208, 102 )

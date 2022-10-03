@@ -65,7 +65,7 @@ func _input(event):
 			# repeat this process multiple times to approach a correct solution
 			for i in range(5):
 				for plug in get_connected_plugs():
-					if !plug.counterpart.is_plugging_in():
+					if !plug.counterpart.is_plugging_in():# or plug.counterpart.is_overextended():
 						continue
 					
 					var plug_desired_position = adjusted_desired_position + plug.global_position - global_position

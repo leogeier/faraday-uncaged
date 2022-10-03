@@ -9,6 +9,7 @@ var started = false
 var rounds = 0
 var difficulty = 1
 var health = 2
+var difficulty_reduction = 0
 
 signal game_lost
 
@@ -59,6 +60,10 @@ func on_power_surge():
 	if not check_rules(current_rules):
 		if health > 0:
 			damage()
+			difficulty_reduction += 1
+			if health == 0:
+				$AlarmLight.on = true
+				$AlarmLight.modulate = Color("#ff1111")
 		else:
 			die()
 		
@@ -93,7 +98,8 @@ func get_electrified_cables():
 func create_new_rules():
 	var new_rules = current_rules
 	for i in range(5):
-		new_rules = rule_solver.generate_ruleset($FuseBox.get_devices(), $ToolBox.get_hubs(), $ToolBox.get_cables(), difficulty, ceil(difficulty * 0.5))
+		var adjusted_difficulty = max(1, difficulty - difficulty_reduction)
+		new_rules = rule_solver.generate_ruleset($FuseBox.get_devices(), $ToolBox.get_hubs(), $ToolBox.get_cables(), adjusted_difficulty, ceil(adjusted_difficulty * 0.5))
 		if not check_rules(new_rules):
 			break
 		

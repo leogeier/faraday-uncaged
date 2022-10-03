@@ -1,11 +1,15 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/cable/plug.png" type="Texture" id=1]
 [ext_resource path="res://scenes/port/port.gd" type="Script" id=2]
 [ext_resource path="res://scenes/port/port_Area2D.gd" type="Script" id=3]
+[ext_resource path="res://scenes/port/plug_insert.wav" type="AudioStream" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 8.0
+
+[sub_resource type="AudioStreamRandomPitch" id=2]
+audio_stream = ExtResource( 4 )
 
 [node name="Port" type="Node2D"]
 script = ExtResource( 2 )
@@ -21,3 +25,6 @@ script = ExtResource( 3 )
 shape = SubResource( 1 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
+
+[node name="PlugInsert" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource( 2 )

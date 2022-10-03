@@ -1,11 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/main_menu/main_menu.gd" type="Script" id=1]
-[ext_resource path="res://font/Metropolis-Light.otf" type="DynamicFontData" id=2]
-
-[sub_resource type="DynamicFont" id=1]
-size = 37
-font_data = ExtResource( 2 )
+[ext_resource path="res://scenes/main_menu/title.tscn" type="PackedScene" id=2]
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource( 1 )
@@ -37,15 +33,8 @@ margin_right = 112.0
 margin_bottom = 108.0
 text = "Quit"
 
-[node name="Label2" type="Label" parent="."]
-margin_left = 228.0
-margin_top = -5.0
-margin_right = 438.0
-margin_bottom = 93.0
-rect_scale = Vector2( 0.819, 2.6 )
-custom_fonts/font = SubResource( 1 )
-text = "FARADAY
-UNCAGED"
+[node name="Title" parent="." instance=ExtResource( 2 )]
+position = Vector2( 164, 44 )
 
 [connection signal="pressed" from="ButtonStart" to="." method="_on_start"]
 [connection signal="pressed" from="ButtonQuit" to="." method="_on_quit"]

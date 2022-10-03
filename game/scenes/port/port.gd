@@ -17,11 +17,13 @@ func insert_plug(plug):
 	modulate = Color.blue
 	$RemoteTransform2D.remote_path = plug.get_path()
 	current_plug = plug
+	$PlugInsert.play()
 
 func remove_plug(_plug):
 	modulate = Color.green
 	$RemoteTransform2D.remote_path = ""
 	current_plug = null
+	$PlugInsert.play()
 
 func can_accept_plug():
 	return current_plug == null

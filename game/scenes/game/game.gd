@@ -37,7 +37,8 @@ func spawn_sparks(point, sound = true):
 	$Viewport/LightningCanvas.spawn_sparks(point)
 	if sound:
 		var player = AudioStreamPlayer.new()
-		player.stream = $Crackle.stream
+		player.stream = AudioStreamRandomPitch.new()
+		player.stream.audio_stream = $Crackle.stream
 		player.play()
 		add_child(player)
 		yield(get_tree().create_timer(0.1), "timeout")

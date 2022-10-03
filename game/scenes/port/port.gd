@@ -36,6 +36,8 @@ func remove_plug(_plug):
 		$RemoteTransform2D.remote_path = ""
 		current_plug = null
 		$PlugInsert.play()
+		var game = Game.get_instance(self)
+		game.on_connection_made()
 
 func can_accept_plug():
 	return current_plug == null

@@ -100,6 +100,7 @@ func damage():
 	$Explosion.play()
 
 func on_power_surge():
+	$SurgeTimer.stop()
 	surging = true
 	print("surge event!")
 	var failed = false
@@ -128,25 +129,26 @@ func on_power_surge():
 #	var electrified_cables = get_electrified_cables()
 #	$Viewport/LightningCanvas.draw_lightning(get_electrified_cables(), lightning_duration)
 #	var electrified
-	for rule in current_rules:
-		if rule.get_rule_name() == "NotConnectedRule" and !failed:
-			continue
-		
-		$RuleDisplay.highlight(rule, true)
-		var electrified_cables = []
-		var bfs_result = bfs(rule.portA)
-		if rule.portB in bfs_result.keys():
-			var vertex = rule.portB
-			while bfs_result[vertex] != null:
-				electrified_cables.push_back(bfs_result[vertex])
-				vertex = bfs_result[vertex].get_other_vertex(vertex)
-		
-		$Crackle.play()
-		$Viewport/LightningCanvas.draw_lightning(electrified_cables, lightning_duration)
-		yield(get_tree().create_timer(lightning_duration), "timeout")
-		$Crackle.stop()
-		$RuleDisplay.highlight(rule, false)
-		yield(get_tree().create_timer(0.4), "timeout")
+	if !failed:
+		for rule in current_rules:
+			if rule.get_rule_name() == "NotConnectedRule" and !failed:
+				continue
+			
+			$RuleDisplay.highlight(rule, true)
+			var electrified_cables = []
+			var bfs_result = bfs(rule.portA)
+			if rule.portB in bfs_result.keys():
+				var vertex = rule.portB
+				while bfs_result[vertex] != null:
+					electrified_cables.push_back(bfs_result[vertex])
+					vertex = bfs_result[vertex].get_other_vertex(vertex)
+			
+			$Crackle.play()
+			$Viewport/LightningCanvas.draw_lightning(electrified_cables, lightning_duration)
+			yield(get_tree().create_timer(lightning_duration), "timeout")
+			$Crackle.stop()
+			$RuleDisplay.highlight(rule, false)
+			yield(get_tree().create_timer(0.4), "timeout")
 	
 	rounds += 1
 	difficulty = ceil(rounds / 3.0)

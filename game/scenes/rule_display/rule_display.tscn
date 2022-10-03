@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/rule_display/rule_display.gd" type="Script" id=1]
 [ext_resource path="res://scenes/progress_bar/progress_bar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://font/dogica.otf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
 
 [node name="RuleDisplay" type="Node2D"]
 script = ExtResource( 1 )
@@ -20,3 +25,12 @@ margin_left = 13.0
 margin_top = 178.0
 margin_right = 87.0
 margin_bottom = 192.0
+percent_visible = false
+
+[node name="Label" type="Label" parent="."]
+margin_left = 43.0
+margin_top = 179.0
+margin_right = 80.0
+margin_bottom = 193.0
+custom_fonts/font = SubResource( 1 )
+text = "9s"

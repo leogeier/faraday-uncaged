@@ -11,3 +11,4 @@ func update_rules(new_rules):
 
 func set_progress(value):
 	$ProgressBar.value = value * 100
+	$Label.text = str(10 - floor(value * 1000) / 100) + "s"

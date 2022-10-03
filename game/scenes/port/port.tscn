@@ -26,5 +26,6 @@ shape = SubResource( 1 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
 
-[node name="PlugInsert" type="AudioStreamPlayer2D" parent="."]
+[node name="PlugInsert" type="AudioStreamPlayer" parent="."]
 stream = SubResource( 2 )
+volume_db = -13.11

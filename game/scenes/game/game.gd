@@ -33,15 +33,16 @@ func _ready():
 	
 	create_new_rules()
 
-func spawn_sparks(point):
+func spawn_sparks(point, sound = true):
 	$Viewport/LightningCanvas.spawn_sparks(point)
-	var player = AudioStreamPlayer.new()
-	player.stream = $Crackle.stream
-	player.play()
-	add_child(player)
-	yield(get_tree().create_timer(0.1), "timeout")
-	player.stop()
-	player.queue_free()
+	if sound:
+		var player = AudioStreamPlayer.new()
+		player.stream = $Crackle.stream
+		player.play()
+		add_child(player)
+		yield(get_tree().create_timer(0.1), "timeout")
+		player.stop()
+		player.queue_free()
 
 func get_adjusted_difficulty():
 	return max(1, difficulty - difficulty_reduction)
@@ -85,6 +86,10 @@ func on_power_surge():
 			if health == 0:
 				$AlarmLight.on = true
 				$AlarmLight.modulate = Color("#ff1111")
+			var sound = true
+			for _i in range(20):
+				spawn_sparks(Vector2(100, 0) + Vector2(randf(), randf()) * 200)
+				sound = false
 		else:
 			die()
 		

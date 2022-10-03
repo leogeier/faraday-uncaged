@@ -28,24 +28,24 @@ margin_bottom = 185.0
 [node name="Device" parent="." instance=ExtResource( 2 )]
 position = Vector2( 51, 64 )
 display_name = "Red"
-color = Color( 1, 0, 0, 1 )
+color = Color( 0.709804, 0.109804, 0.109804, 1 )
 
 [node name="Device2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 50, 122 )
 display_name = "B"
-color = Color( 0, 0, 1, 1 )
+color = Color( 0.14902, 0.14902, 0.776471, 1 )
 
 [node name="Device3" parent="." instance=ExtResource( 2 )]
-position = Vector2( 140, 31 )
+position = Vector2( 140, 44 )
 display_name = "C"
-color = Color( 0, 1, 0, 1 )
+color = Color( 0.137255, 0.341176, 0.137255, 1 )
 
 [node name="Device4" parent="." instance=ExtResource( 2 )]
 position = Vector2( 168, 142 )
 display_name = "D"
-color = Color( 1, 1, 0, 1 )
+color = Color( 0.929412, 0.67451, 0, 1 )
 
 [node name="Device5" parent="." instance=ExtResource( 2 )]
 position = Vector2( 139, 171 )
 display_name = "E"
-color = Color( 1, 0, 1, 1 )
+color = Color( 0.341176, 0.0862745, 0.341176, 1 )

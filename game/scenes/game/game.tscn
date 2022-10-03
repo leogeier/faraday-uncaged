@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scenes/game/game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/rule_display/rule_display.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://scenes/alarm_light/alarm_light.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/lightning_effect/lightning_effect.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/game/explosion.wav" type="AudioStream" id=11]
+[ext_resource path="res://sounds/square.wav" type="AudioStream" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 400, 50 )
@@ -264,5 +265,9 @@ position = Vector2( 389, 12 )
 [node name="Explosion" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )
 volume_db = -5.0
+
+[node name="Crackle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+volume_db = -1.748
 
 [connection signal="timeout" from="SurgeTimer" to="." method="on_power_surge"]

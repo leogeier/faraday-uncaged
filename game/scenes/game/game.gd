@@ -45,7 +45,7 @@ func start_cycle():
 	$MusicLoop.stop()
 	$MusicIngame.play()
 	$SurgeTimer.start()
-	create_new_rules()
+	on_power_surge()
 
 func die():
 	emit_signal("game_lost", self)
@@ -123,6 +123,10 @@ static func bfs(from):
 	return previous_edge_dict
 
 func _process(delta):
-	if not started and check_rules(current_rules):
-		start_cycle()
+	if check_rules(current_rules):
+		if not started:
+			start_cycle()
+		else:
+			on_power_surge()
+			$SurgeTimer.start()
 	$RuleDisplay.set_progress(1 - $SurgeTimer.time_left / $SurgeTimer.wait_time)

@@ -1,12 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/rule_display/rule_display.gd" type="Script" id=1]
 [ext_resource path="res://scenes/progress_bar/progress_bar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/rule_display/rules_background.png" type="Texture" id=3]
-[ext_resource path="res://font/dogica.otf" type="DynamicFontData" id=4]
+[ext_resource path="res://font/04B_03__.TTF" type="DynamicFontData" id=4]
 
 [sub_resource type="DynamicFont" id=1]
-outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
 
 [node name="RuleDisplay" type="Node2D"]
@@ -31,9 +30,19 @@ margin_bottom = 192.0
 percent_visible = false
 
 [node name="Label" type="Label" parent="."]
-margin_left = 43.0
-margin_top = 179.0
-margin_right = 80.0
-margin_bottom = 193.0
+margin_left = 15.0
+margin_top = 161.0
+margin_right = 52.0
+margin_bottom = 177.0
+input_pass_on_modal_close_click = false
 custom_fonts/font = SubResource( 1 )
-text = "9s"
+text = "00.00"
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 61.0
+margin_top = 161.0
+margin_right = 98.0
+margin_bottom = 177.0
+input_pass_on_modal_close_click = false
+custom_fonts/font = SubResource( 1 )
+text = "s"

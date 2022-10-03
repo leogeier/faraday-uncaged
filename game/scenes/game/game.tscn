@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scenes/game/game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/rule_display/rule_display.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://scenes/effects/camera_shake.gd" type="Script" id=8]
 [ext_resource path="res://scenes/alarm_light/alarm_light.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/lightning_effect/lightning_effect.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/game/explosion.wav" type="AudioStream" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 400, 50 )
@@ -259,5 +260,9 @@ script = ExtResource( 8 )
 [node name="AlarmLight" parent="." instance=ExtResource( 9 )]
 modulate = Color( 0.333333, 0.333333, 0.333333, 1 )
 position = Vector2( 391, 9 )
+
+[node name="Explosion" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+volume_db = -5.0
 
 [connection signal="timeout" from="SurgeTimer" to="." method="on_power_surge"]

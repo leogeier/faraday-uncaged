@@ -54,6 +54,7 @@ func damage():
 	health -= 1
 	$FuseBox.set_state(health)
 	$Camera.shake(0.5)
+	$Explosion.play()
 
 func on_power_surge():
 	print("surge event!")

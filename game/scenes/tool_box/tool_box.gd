@@ -58,3 +58,17 @@ func get_hubs():
 			
 	return hubs
 
+func on_plug_stopped_dragging(plug):
+	plug.set_is_frozen(true)
+
+func on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
+	if !body.is_in_group("plug") and !body.is_in_group("freeze_shape"):
+		return
+	
+	body.connect("stopped_dragging", self, "on_plug_stopped_dragging", [body])
+
+func on_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):
+	if !body.is_in_group("plug") and !body.is_in_group("freeze_shape"):
+		return
+	
+	body.disconnect("stopped_dragging", self, "on_plug_stopped_dragging")

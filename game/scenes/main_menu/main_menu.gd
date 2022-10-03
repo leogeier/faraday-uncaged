@@ -8,3 +8,7 @@ func _on_start():
 
 func _on_quit():
 	get_tree().quit()
+
+func _ready():
+	if OS.has_feature("HTML5"):
+		$ButtonQuit.visible = false

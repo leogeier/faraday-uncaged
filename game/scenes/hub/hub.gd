@@ -65,6 +65,9 @@ func _input(event):
 			# repeat this process multiple times to approach a correct solution
 			for i in range(5):
 				for plug in get_connected_plugs():
+					if !plug.counterpart.is_plugging_in():
+						continue
+					
 					var plug_desired_position = adjusted_desired_position + plug.global_position - global_position
 					if plug_desired_position.distance_to(plug.counterpart.global_position) > plug.cable_length:
 						var new_plug_desired_position = plug.counterpart.global_position + plug.counterpart.global_position.direction_to(plug_desired_position) * plug.cable_length

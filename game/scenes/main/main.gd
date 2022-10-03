@@ -7,17 +7,20 @@ func _ready():
 	open_main_menu()
 
 func open_main_menu():
+	$Zap.playing = true
 	var main_menu = preload("res://scenes/main_menu/main_menu.tscn").instance()
 	main_menu.connect("start_game", self, "on_start_game")
 	add_child(main_menu)
 
 func start_game():
+	$Zap.playing = false
 	var game_instance = preload("res://scenes/game/game.tscn").instance()
 	game_instance.connect("game_lost", self, "on_game_lost")
 	add_child(game_instance)
 	
 	
 func open_death_screen():
+	$Zap.playing = true
 	var death_screen = preload("res://scenes/death_screen/death_screen.tscn").instance()
 	death_screen.connect("close", self, "on_close_screen")
 	add_child(death_screen)

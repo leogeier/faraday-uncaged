@@ -64,6 +64,7 @@ func start_cycle():
 	$MusicLoop.stop()
 	$MusicIngame.play()
 	$SurgeTimer.start()
+	get_tree().create_tween().tween_property($TutorialText, "modulate", Color.transparent, 0.2)
 	on_power_surge()
 
 func die():

@@ -77,6 +77,7 @@ func _input(event):
 	
 	if event is InputEventMouseButton and !event.pressed:
 		is_dragging = false
+		$PickUpSound.play()
 #		emit_signal("stopped_dragging")
 		for plug in get_connected_plugs():
 			plug.counterpart.cable_radius_viz_enabled = false
@@ -84,6 +85,8 @@ func _input(event):
 func start_dragging():
 	is_dragging = true
 	desired_position = global_position
+	
+	$PickUpSound.play()
 #		emit_signal("started_dragging")
 	for plug in get_connected_plugs():
 		plug.counterpart.cable_radius_viz_enabled = true

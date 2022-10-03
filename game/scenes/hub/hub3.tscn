@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/port/port.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/hub/hub.gd" type="Script" id=2]
 [ext_resource path="res://scenes/hub/hub_3.png" type="Texture" id=3]
+[ext_resource path="res://scenes/port/plug_insert.wav" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 29, 10 )
@@ -26,3 +27,7 @@ position = Vector2( 18, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
+
+[node name="PickUpSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -13.11

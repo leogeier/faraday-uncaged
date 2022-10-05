@@ -17,6 +17,11 @@ var drag_priority setget , get_drag_priority
 var vertex setget , get_vertex
 var overextended_radius
 
+var may_be_picked_up = true
+
+func set_may_be_picked_up(val):
+	may_be_picked_up = val
+
 onready var trail_shapes = [$Trail1, $Trail2, $Trail3]
 
 signal started_dragging
@@ -95,6 +100,8 @@ func enable_signal_reached_max_distance():
 		emit_signal("away_from_max_distance")
 
 func start_dragging():
+	if !may_be_picked_up:
+		return
 	is_dragging = true
 	mode = RigidBody2D.MODE_KINEMATIC
 	position = transform.xform(get_local_mouse_position())

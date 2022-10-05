@@ -8,6 +8,11 @@ var is_dragging = false
 var desired_position
 var drag_priority = -1
 
+var may_be_picked_up = true
+
+func set_may_be_picked_up(val):
+	may_be_picked_up = val
+
 func get_edges():
 	var edges = []
 	for port in $Ports.get_children():
@@ -76,13 +81,16 @@ func _input(event):
 			global_position = adjusted_desired_position.floor()
 	
 	if event is InputEventMouseButton and !event.pressed:
+		if is_dragging:
+			$PickUpSound.play()
 		is_dragging = false
-		$PickUpSound.play()
 #		emit_signal("stopped_dragging")
 		for plug in get_connected_plugs():
 			plug.counterpart.cable_radius_viz_enabled = false
 
 func start_dragging():
+	if !may_be_picked_up:
+		return
 	is_dragging = true
 	desired_position = global_position
 	

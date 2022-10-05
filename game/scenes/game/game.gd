@@ -105,6 +105,8 @@ func on_power_surge():
 	print("surge event!")
 	var failed = false
 	get_tree().call_group("port", "set_may_connect", false)
+	get_tree().call_group("plug", "set_may_be_picked_up", false)
+	get_tree().call_group("hub", "set_may_be_picked_up", false)
 	if check_rules(current_rules):
 		Score.increase_score(get_adjusted_difficulty())
 		print("new score ", Score.score)
@@ -166,6 +168,8 @@ func on_power_surge():
 	
 	surging = false
 	get_tree().call_group("port", "set_may_connect", true)
+	get_tree().call_group("plug", "set_may_be_picked_up", true)
+	get_tree().call_group("hub", "set_may_be_picked_up", true)
 	$SurgeTimer.start()
 	
 #	if !electrified_cables.empty():
@@ -227,10 +231,10 @@ func on_connection_made():
 			on_power_surge()
 
 func _process(delta):
-	if Input.is_action_just_pressed("ui_cancel"):
-		current_rules = []
-		if not started:
-			start_cycle()
-		else:
-			on_power_surge()
+#	if Input.is_action_just_pressed("ui_cancel"):
+#		current_rules = []
+#		if not started:
+#			start_cycle()
+#		else:
+#			on_power_surge()
 	$RuleDisplay.set_progress(1 - $SurgeTimer.time_left / $SurgeTimer.wait_time)

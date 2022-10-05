@@ -12,3 +12,4 @@ func _on_quit():
 func _ready():
 	if OS.has_feature("HTML5"):
 		$ButtonQuit.visible = false
+		$Title/LightningViewport/LabelQuit.visible = false

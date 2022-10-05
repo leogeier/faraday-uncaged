@@ -31,13 +31,12 @@ func insert_plug(plug):
 		game.on_connection_made()
 
 func remove_plug(_plug):
-	if may_connect:
-		modulate = hover_col
-		$RemoteTransform2D.remote_path = ""
-		current_plug = null
-		$PlugInsert.play()
-		var game = Game.get_instance(self)
-		game.on_connection_made()
+	modulate = hover_col
+	$RemoteTransform2D.remote_path = ""
+	current_plug = null
+	$PlugInsert.play()
+	var game = Game.get_instance(self)
+	game.on_connection_made()
 
 func can_accept_plug():
 	return current_plug == null

@@ -107,8 +107,9 @@ func start_dragging():
 	position = transform.xform(get_local_mouse_position())
 	desired_position = position
 	if is_plugging_in():
-		current_port.remove_plug(self)
+		var port = current_port
 		current_port = null
+		port.remove_plug(self)
 	if !counterpart.is_plugging_in():
 		counterpart.set_is_frozen(false)
 		set_cable_radius_viz_enabled(true)
